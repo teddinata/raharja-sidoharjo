@@ -1,0 +1,70 @@
+<?php
+
+namespace App\Models;
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
+#[Fillable([
+    'no_kk', 'nik', 'nama_lengkap', 'tempat_lahir', 'tanggal_lahir',
+    'jenis_kelamin', 'agama', 'pendidikan', 'pekerjaan',
+    'status_perkawinan', 'hub_keluarga', 'pedukuhan', 'rt', 'rw',
+    'nama_ketua_rt', 'nama_ketua_rw',
+    'nama_ayah', 'nik_ayah', 'nama_ibu', 'nik_ibu',
+    'is_aktif',
+])]
+class Penduduk extends Model
+{
+    protected $table = 'penduduk';
+
+    protected function casts(): array
+    {
+        return [
+            'tanggal_lahir' => 'date',
+            'is_aktif'      => 'boolean',
+        ];
+    }
+
+    public function getUmurAttribute(): ?int
+    {
+        return $this->tanggal_lahir?->age;
+    }
+
+    public function getTanggalLahirFormatAttribute(): ?string
+    {
+        if (!$this->tanggal_lahir) return null;
+        Carbon::setLocale('id');
+        return $this->tanggal_lahir->translatedFormat('d F Y');
+    }
+
+    public function getBinBintiAttribute(): string
+    {
+        $kata = $this->jenis_kelamin === 'Laki-laki' ? 'bin' : 'binti';
+        return "{$this->nama_lengkap} {$kata} " . ($this->nama_ayah ?? '-');
+    }
+
+    public function scopeSearch(Builder $query, string $keyword): Builder
+    {
+        return $query->where(function (Builder $q) use ($keyword) {
+            $q->where('nik', 'like', "%{$keyword}%")
+              ->orWhere('nama_lengkap', 'like', "%{$keyword}%");
+        });
+    }
+
+    public function scopeAktif(Builder $query): Builder
+    {
+        return $query->where('is_aktif', true);
+    }
+
+    public function surat()
+    {
+        return $this->hasMany(Surat::class);
+    }
+
+    public function registerPelayanan()
+    {
+        return $this->hasMany(RegisterPelayanan::class);
+    }
+}

@@ -1,0 +1,26 @@
+@extends('surat.layout')
+@section('content')
+@php $p = $surat->penduduk; $extra = $surat->data_tambahan ?? []; $ttd = $surat->ttd; $tgl = now()->translatedFormat('d F Y'); @endphp
+<div class="judul"><h3>Surat Keterangan Biodata Penduduk</h3><p>Nomor: {{ $surat->nomor_surat }}</p></div>
+<div class="isi">
+    <p>Yang bertanda tangan di bawah ini, Lurah {{ $setting->nama_kelurahan }}, dengan ini menerangkan biodata penduduk:</p>
+    <table class="data" style="margin-top:12px;">
+        <tr><td class="label">Nama Lengkap</td><td class="sep">:</td><td class="value">{{ $p->nama_lengkap }}</td></tr>
+        <tr><td class="label">NIK</td><td class="sep">:</td><td class="value">{{ $p->nik ?? '-' }}</td></tr>
+        <tr><td class="label">No. KK</td><td class="sep">:</td><td class="value">{{ $p->no_kk ?? '-' }}</td></tr>
+        <tr><td class="label">Tempat / Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ $p->tempat_lahir ?? '-' }}, {{ $p->tanggal_lahir_format ?? '-' }}</td></tr>
+        <tr><td class="label">Jenis Kelamin</td><td class="sep">:</td><td class="value">{{ $p->jenis_kelamin ?? '-' }}</td></tr>
+        <tr><td class="label">Agama</td><td class="sep">:</td><td class="value">{{ $p->agama ?? '-' }}</td></tr>
+        <tr><td class="label">Pendidikan</td><td class="sep">:</td><td class="value">{{ $p->pendidikan ?? '-' }}</td></tr>
+        <tr><td class="label">Pekerjaan</td><td class="sep">:</td><td class="value">{{ $p->pekerjaan ?? '-' }}</td></tr>
+        <tr><td class="label">Status Perkawinan</td><td class="sep">:</td><td class="value">{{ $p->status_perkawinan ?? '-' }}</td></tr>
+        <tr><td class="label">Hub. Keluarga</td><td class="sep">:</td><td class="value">{{ $p->hub_keluarga ?? '-' }}</td></tr>
+        <tr><td class="label">Nama Ayah</td><td class="sep">:</td><td class="value">{{ $p->nama_ayah ?? '-' }}</td></tr>
+        <tr><td class="label">Nama Ibu</td><td class="sep">:</td><td class="value">{{ $p->nama_ibu ?? '-' }}</td></tr>
+        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }}, RT {{ $p->rt ?? '-' }}/RW {{ $p->rw ?? '-' }}, Kalurahan {{ $setting->nama_kelurahan }}, Kapanewon {{ $setting->nama_kapanewon }}, Kabupaten {{ $setting->nama_kabupaten }}</td></tr>
+    </table>
+    @if(!empty($extra['keperluan']))<p style="margin-top:12px;">Keperluan: <strong>{{ $extra['keperluan'] }}</strong></p>@endif
+</div>
+<div class="penutup"><p>Demikian surat keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.</p></div>
+@include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
+@endsection
