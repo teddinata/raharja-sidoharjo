@@ -179,11 +179,15 @@
             <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
             <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
             @php
-                $infoParts = ['Alamat : ' . ($setting->alamat ?? '-')];
-                if ($setting->email)   $infoParts[] = 'Email : ' . $setting->email;
-                if ($setting->website) $infoParts[] = 'Website : ' . $setting->website;
+                $alamat  = rtrim($setting->alamat ?? '-', ' ,');
+                $kontak  = [];
+                if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
+                if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
             @endphp
-            <p class="kop-alamat">{{ implode('  |  ', $infoParts) }}</p>
+            <p class="kop-alamat">Alamat : {{ $alamat }}</p>
+            @if(count($kontak))
+            <p class="kop-alamat" style="margin-top:0;">{{ implode('  |  ', $kontak) }}</p>
+            @endif
         </td>
     </tr>
 </table>
