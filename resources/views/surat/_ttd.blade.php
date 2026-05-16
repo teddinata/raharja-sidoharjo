@@ -11,7 +11,7 @@
         <img class="ttd-image"
              src="data:image/png;base64,{{ base64_encode(file_get_contents($ttdAbsPath)) }}">
     @else
-        <br><br><br>
+        <br>
     @endif
 
     <p class="nama">{{ $ttd?->atas_nama ?? $setting->nama_lurah ?? '................................' }}</p>

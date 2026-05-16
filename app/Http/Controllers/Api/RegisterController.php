@@ -58,6 +58,8 @@ class RegisterController extends Controller
                     'tanggal'          => $r->tanggal_pelayanan->format('d/m/Y'),
                     'jenis_pelayanan'  => $r->jenis_pelayanan,
                     'nomor_surat'      => $r->surat?->nomor_surat,
+                    'surat_id'         => $r->surat?->id,
+                    'jenis_surat_kode' => $r->surat?->jenisSurat?->kode,
                     'nama_pemohon'     => $r->penduduk?->nama_lengkap,
                     'nik_pemohon'      => $r->penduduk?->nik,
                     'pedukuhan'        => $r->pedukuhan_pemohon,

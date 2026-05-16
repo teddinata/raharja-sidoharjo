@@ -148,7 +148,7 @@
             font-size: 11pt;
         }
         .ttd .nama {
-            margin-top: 65px;
+            margin-top: 40px;
             font-weight: bold;
             text-decoration: underline;
         }

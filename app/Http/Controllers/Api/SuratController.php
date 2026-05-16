@@ -103,6 +103,28 @@ class SuratController extends Controller
     }
 
     /**
+     * PUT /api/surat/{id}
+     * Koreksi isi surat (data_tambahan / data_pihak_luar).
+     * Nomor surat & penduduk tidak bisa diubah.
+     */
+    public function update(Request $request, int $id): JsonResponse
+    {
+        $surat = Surat::with(['jenisSurat'])->findOrFail($id);
+
+        $request->validate([
+            'data_tambahan'   => 'nullable|array',
+            'data_pihak_luar' => 'nullable|array',
+        ]);
+
+        $surat->update($request->only(['data_tambahan', 'data_pihak_luar']));
+
+        return response()->json([
+            'message'       => 'Data surat berhasil diperbarui.',
+            'data_tambahan' => $surat->fresh()->data_tambahan,
+        ]);
+    }
+
+    /**
      * GET /api/surat/{id}/pdf
      * Generate dan download PDF surat.
      */

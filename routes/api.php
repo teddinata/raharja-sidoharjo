@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Di dalam group auth:sanctum, tambahkan:
     Route::post('/surat',               [SuratController::class, 'store']);
     Route::get('/surat/{id}',           [SuratController::class, 'show']);
+    Route::put('/surat/{id}',           [SuratController::class, 'update']);
     Route::get('/surat/{id}/pdf',       [SuratController::class, 'downloadPdf']);
     Route::get('/surat/{id}/docx',      [SuratController::class, 'downloadDocx']);
 
