@@ -51,36 +51,36 @@
         }
         .kop-kab {
             font-family: Arial, sans-serif;
-            font-size: 12pt;
+            font-size: 14pt;
             font-weight: bold;
             text-transform: uppercase;
-            line-height: 1.4;
+            line-height: 1.3;
         }
         .kop-kap {
-            font-family: Arial, sans-serif;
-            font-size: 12pt;
-            font-weight: bold;
-            text-transform: uppercase;
-            line-height: 1.4;
-        }
-        .kop-kal {
             font-family: Arial, sans-serif;
             font-size: 14pt;
             font-weight: bold;
             text-transform: uppercase;
-            line-height: 1.4;
+            line-height: 1.3;
+        }
+        .kop-kal {
+            font-family: Arial, sans-serif;
+            font-size: 18pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.3;
         }
         .kop-jawa {
             font-family: 'NotoJavanese', serif;
-            font-size: 10pt;
+            font-size: 12pt;
             line-height: 1.6;
             margin-top: 2px;
         }
         .kop-alamat {
             font-family: Arial, sans-serif;
             font-size: 8pt;
-            line-height: 1.4;
-            margin-top: 2px;
+            line-height: 1.5;
+            margin-top: 3px;
         }
 
         /* Separator garis tebal + tipis (double line) */
@@ -178,11 +178,12 @@
             <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
             <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
             <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
-            <p class="kop-alamat">
-                Alamat : {{ $setting->alamat ?? '-' }}
-                @if($setting->email) &nbsp;&nbsp; Email: {{ $setting->email }} @endif
-                @if($setting->website) &nbsp;&nbsp; Website: {{ $setting->website }} @endif
-            </p>
+            @php
+                $infoParts = ['Alamat : ' . ($setting->alamat ?? '-')];
+                if ($setting->email)   $infoParts[] = 'Email : ' . $setting->email;
+                if ($setting->website) $infoParts[] = 'Website : ' . $setting->website;
+            @endphp
+            <p class="kop-alamat">{{ implode('  |  ', $infoParts) }}</p>
         </td>
     </tr>
 </table>
