@@ -10,7 +10,7 @@
         <tr><td class="label">Tempat / Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ $p->tempat_lahir ?? '-' }}, {{ $p->tanggal_lahir_format ?? '-' }}</td></tr>
         <tr><td class="label">Umur</td><td class="sep">:</td><td class="value">{{ $p->umur ?? '-' }} tahun</td></tr>
         <tr><td class="label">Agama</td><td class="sep">:</td><td class="value">{{ $p->agama ?? '-' }}</td></tr>
-        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }}, RT {{ $p->rt ?? '-' }}/RW {{ $p->rw ?? '-' }}, Kalurahan {{ $setting->nama_kelurahan }}</td></tr>
+        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
     </table>
     <p style="margin-top:12px;">Memerlukan dispensasi nikah dengan alasan:</p>
     <p style="margin-top:8px; padding-left:16px;"><em>{{ $extra['alasan_dispensasi'] ?? '-' }}</em></p>

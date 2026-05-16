@@ -8,7 +8,7 @@
         <tr><td class="label">Nama Kepala Keluarga</td><td class="sep">:</td><td class="value">{{ $p->nama_lengkap }}</td></tr>
         <tr><td class="label">NIK</td><td class="sep">:</td><td class="value">{{ $p->nik ?? '-' }}</td></tr>
         <tr><td class="label">No. KK</td><td class="sep">:</td><td class="value">{{ $p->no_kk ?? '-' }}</td></tr>
-        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }}, RT {{ $p->rt ?? '-' }}/RW {{ $p->rw ?? '-' }}, Kalurahan {{ $setting->nama_kelurahan }}</td></tr>
+        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
         <tr><td class="label">Jenis Permohonan</td><td class="sep">:</td><td class="value"><strong>{{ $extra['jenis_permohonan'] ?? 'Baru' }}</strong></td></tr>
     </table>
     <p style="margin-top:12px;">Mohon kiranya dapat diproses lebih lanjut ke Dinas Kependudukan dan Pencatatan Sipil Kabupaten {{ $setting->nama_kabupaten }}.</p>

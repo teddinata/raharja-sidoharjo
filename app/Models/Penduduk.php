@@ -45,6 +45,21 @@ class Penduduk extends Model
         return "{$this->nama_lengkap} {$kata} " . ($this->nama_ayah ?? '-');
     }
 
+    public function getRtFormatAttribute(): string
+    {
+        return str_pad($this->rt ?? '0', 3, '0', STR_PAD_LEFT);
+    }
+
+    public function getRwFormatAttribute(): string
+    {
+        return str_pad($this->rw ?? '0', 3, '0', STR_PAD_LEFT);
+    }
+
+    public function getAlamatLengkapAttribute(): string
+    {
+        return ($this->pedukuhan ?? '-') . ' RT ' . $this->rt_format . ' RW ' . $this->rw_format;
+    }
+
     public function scopeSearch(Builder $query, string $keyword): Builder
     {
         return $query->where(function (Builder $q) use ($keyword) {

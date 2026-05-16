@@ -205,7 +205,7 @@ class SuratController extends Controller
             ['Jenis Kelamin',     $penduduk->jenis_kelamin ?? '-'],
             ['Agama',             $penduduk->agama ?? '-'],
             ['Pekerjaan',         $penduduk->pekerjaan ?? '-'],
-            ['Alamat',            $penduduk->alamat_lengkap ?: '-'],
+            ['Alamat',            $penduduk->alamat_lengkap . ', ' . $setting->nama_kelurahan . ', ' . $setting->nama_kapanewon . ', ' . $setting->nama_kabupaten],
         ];
 
         foreach ($fields as [$label, $value]) {
@@ -261,11 +261,12 @@ class SuratController extends Controller
         }
 
         // ── SIMPAN & DOWNLOAD ─────────────────────────────────
-        $filename = str_replace('/', '-', $surat->nomor_surat) . '.docx';
-        $tmpPath  = storage_path("app/tmp/{$filename}");
+        $filename = str_replace(['/', '\\'], '-', $surat->nomor_surat) . '.docx';
+        $tmpDir   = storage_path('app/tmp');
+        $tmpPath  = "{$tmpDir}/{$filename}";
 
-        if (! is_dir(storage_path('app/tmp'))) {
-            mkdir(storage_path('app/tmp'), 0755, true);
+        if (! is_dir($tmpDir)) {
+            mkdir($tmpDir, 0755, true);
         }
 
         $writer = IOFactory::createWriter($phpWord, 'Word2007');

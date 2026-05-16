@@ -130,6 +130,57 @@ class RegisterController extends Controller
     }
 
     /**
+     * PUT /api/register/{id}
+     * Koreksi data register (admin only via route middleware).
+     */
+    public function update(Request $request, int $id): JsonResponse
+    {
+        $register = RegisterPelayanan::with(['penduduk', 'petugas', 'surat'])->findOrFail($id);
+
+        $request->validate([
+            'jenis_pelayanan'   => 'nullable|string|max:255',
+            'tanggal_pelayanan' => 'nullable|date',
+            'keterangan'        => 'nullable|string|max:500',
+            'pedukuhan_pemohon' => 'nullable|string|max:100',
+        ]);
+
+        $register->update($request->only([
+            'jenis_pelayanan', 'tanggal_pelayanan', 'keterangan', 'pedukuhan_pemohon',
+        ]));
+
+        return response()->json([
+            'message' => 'Data register berhasil diperbarui.',
+            'data'    => [
+                'id'             => $register->id,
+                'nomor_register' => $register->nomor_register,
+                'tanggal'        => $register->tanggal_pelayanan->format('d/m/Y'),
+                'jenis_pelayanan'=> $register->jenis_pelayanan,
+                'nomor_surat'    => $register->surat?->nomor_surat,
+                'nama_pemohon'   => $register->penduduk?->nama_lengkap,
+                'nik_pemohon'    => $register->penduduk?->nik,
+                'pedukuhan'      => $register->pedukuhan_pemohon,
+                'petugas'        => $register->petugas?->name,
+                'keterangan'     => $register->keterangan,
+            ],
+        ]);
+    }
+
+    /**
+     * DELETE /api/register/{id}
+     * Hapus entri register (admin only via route middleware).
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        $register    = RegisterPelayanan::findOrFail($id);
+        $nomor       = $register->nomor_register;
+        $register->delete();
+
+        return response()->json([
+            'message' => "Register {$nomor} berhasil dihapus.",
+        ]);
+    }
+
+    /**
      * GET /api/register/export
      * Export register ke Excel.
      */

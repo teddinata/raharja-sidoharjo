@@ -17,7 +17,7 @@
         <tr><td class="label">Hub. Keluarga</td><td class="sep">:</td><td class="value">{{ $p->hub_keluarga ?? '-' }}</td></tr>
         <tr><td class="label">Nama Ayah</td><td class="sep">:</td><td class="value">{{ $p->nama_ayah ?? '-' }}</td></tr>
         <tr><td class="label">Nama Ibu</td><td class="sep">:</td><td class="value">{{ $p->nama_ibu ?? '-' }}</td></tr>
-        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }}, RT {{ $p->rt ?? '-' }}/RW {{ $p->rw ?? '-' }}, Kalurahan {{ $setting->nama_kelurahan }}, Kapanewon {{ $setting->nama_kapanewon }}, Kabupaten {{ $setting->nama_kabupaten }}</td></tr>
+        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
     </table>
     @if(!empty($extra['keperluan']))<p style="margin-top:12px;">Keperluan: <strong>{{ $extra['keperluan'] }}</strong></p>@endif
 </div>

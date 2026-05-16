@@ -8,7 +8,7 @@
         <tr><td class="label">Nama</td><td class="sep">:</td><td class="value">{{ $p->nama_lengkap }}</td></tr>
         <tr><td class="label">NIK</td><td class="sep">:</td><td class="value">{{ $p->nik ?? '-' }}</td></tr>
         <tr><td class="label">Tempat / Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ $p->tempat_lahir ?? '-' }}, {{ $p->tanggal_lahir_format ?? '-' }}</td></tr>
-        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }}, RT {{ $p->rt ?? '-' }}/RW {{ $p->rw ?? '-' }}, Kalurahan {{ $setting->nama_kelurahan }}</td></tr>
+        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
         <tr><td class="label">Tanggal Meninggal</td><td class="sep">:</td><td class="value">{{ isset($extra['tanggal_meninggal']) ? \Carbon\Carbon::parse($extra['tanggal_meninggal'])->translatedFormat('d F Y') : '-' }}</td></tr>
         <tr><td class="label">Tempat Meninggal</td><td class="sep">:</td><td class="value">{{ $extra['tempat_meninggal'] ?? '-' }}</td></tr>
         <tr><td class="label">Sebab Meninggal</td><td class="sep">:</td><td class="value">{{ $extra['sebab_meninggal'] ?? '-' }}</td></tr>

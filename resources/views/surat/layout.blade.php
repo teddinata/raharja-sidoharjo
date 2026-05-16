@@ -3,51 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        @font-face {
+            font-family: 'Arial';
+            src: url('{{ public_path("fonts/Arial.ttf") }}');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Arial';
+            src: url('{{ public_path("fonts/Arial-Bold.ttf") }}');
+            font-weight: bold;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'NotoJavanese';
+            src: url('{{ public_path("fonts/NotoSansJavanese.otf") }}');
+            font-weight: normal;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: "Times New Roman", Times, serif;
-            font-size: 12pt;
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
             color: #000;
-            padding: 1.5cm 2cm;
+            padding: 1.2cm 2cm 1.5cm 2cm;
         }
-        .kop {
-            display: flex;
-            align-items: center;
-            border-bottom: 3px double #000;
-            padding-bottom: 8px;
-            margin-bottom: 16px;
+
+        /* ── KOP ──────────────────────────────────────────────── */
+        table.kop {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
         }
-        .kop-logo {
-            width: 80px;
-            margin-right: 16px;
+        td.kop-logo-cell {
+            width: 90px;
+            vertical-align: middle;
+            padding-right: 10px;
         }
-        .kop-teks { text-align: center; flex: 1; }
-        .kop-teks h1 { font-size: 15pt; text-transform: uppercase; }
-        .kop-teks h2 { font-size: 13pt; text-transform: uppercase; }
-        .kop-teks p  { font-size: 10pt; }
+        td.kop-logo-cell img {
+            width: 85px;
+            height: auto;
+        }
+        td.kop-teks-cell {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .kop-kab {
+            font-family: Arial, sans-serif;
+            font-size: 12pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+        .kop-kap {
+            font-family: Arial, sans-serif;
+            font-size: 12pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+        .kop-kal {
+            font-family: Arial, sans-serif;
+            font-size: 14pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+        .kop-jawa {
+            font-family: 'NotoJavanese', serif;
+            font-size: 10pt;
+            line-height: 1.6;
+            margin-top: 2px;
+        }
+        .kop-alamat {
+            font-family: Arial, sans-serif;
+            font-size: 8pt;
+            line-height: 1.4;
+            margin-top: 2px;
+        }
+
+        /* Separator garis tebal + tipis (double line) */
+        .kop-separator {
+            width: 100%;
+            border-top: 3px solid #000;
+            border-bottom: 1px solid #000;
+            padding-bottom: 2px;
+            margin-top: 6px;
+            margin-bottom: 14px;
+        }
+
+        /* ── JUDUL SURAT ──────────────────────────────────────── */
         .judul {
             text-align: center;
-            margin: 16px 0 8px;
+            margin: 14px 0 8px;
         }
         .judul h3 {
-            font-size: 13pt;
+            font-family: Arial, sans-serif;
+            font-size: 12pt;
+            font-weight: bold;
             text-transform: uppercase;
             text-decoration: underline;
         }
-        .judul p { font-size: 11pt; }
-        .isi { margin-top: 16px; line-height: 1.8; }
-        table.data { width: 100%; border-collapse: collapse; margin: 8px 0; }
-        table.data td { padding: 2px 4px; vertical-align: top; font-size: 11pt; }
+        .judul p {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+        }
+
+        /* ── ISI ─────────────────────────────────────────────── */
+        .isi {
+            margin-top: 14px;
+            line-height: 1.8;
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+        }
+
+        table.data {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 6px 0;
+        }
+        table.data td {
+            padding: 1px 4px;
+            vertical-align: top;
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+        }
         table.data td.label { width: 38%; }
-        table.data td.sep   { width: 4%; text-align: center; }
+        table.data td.sep   { width: 4%;  text-align: center; }
         table.data td.value { width: 58%; }
+
+        /* ── PENUTUP & TTD ───────────────────────────────────── */
+        .penutup {
+            margin-top: 14px;
+            line-height: 1.8;
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+        }
         .ttd {
-            margin-top: 32px;
+            margin-top: 28px;
             text-align: right;
             line-height: 1.8;
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
         }
         .ttd .nama {
-            margin-top: 70px;
+            margin-top: 65px;
             font-weight: bold;
             text-decoration: underline;
         }
@@ -57,27 +158,36 @@
             display: block;
             margin: 4px 0;
         }
-        .penutup { margin-top: 16px; line-height: 1.8; }
     </style>
 </head>
 <body>
 
-{{-- KOP SURAT --}}
-<div class="kop">
-    @if($setting->logo_path && file_exists(storage_path('app/public/' . $setting->logo_path)))
-        <img class="kop-logo" src="{{ storage_path('app/public/' . $setting->logo_path) }}">
-    @endif
-    <div class="kop-teks">
-        <h2>Pemerintah Kabupaten {{ $setting->nama_kabupaten }}</h2>
-        <h2>Kapanewon {{ $setting->nama_kapanewon }}</h2>
-        <h1>Kalurahan {{ $setting->nama_kelurahan }}</h1>
-        @if($setting->alamat)
-            <p>{{ $setting->alamat }}
-            @if($setting->telepon) &nbsp;|&nbsp; Telp. {{ $setting->telepon }} @endif
+{{-- ── KOP SURAT ─────────────────────────────────────────────────────── --}}
+<table class="kop">
+    <tr>
+        {{-- Logo --}}
+        <td class="kop-logo-cell">
+            @if($setting->logo_path && file_exists(storage_path('app/public/' . $setting->logo_path)))
+                <img src="{{ storage_path('app/public/' . $setting->logo_path) }}">
+            @endif
+        </td>
+
+        {{-- Teks kop --}}
+        <td class="kop-teks-cell">
+            <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
+            <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
+            <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
+            <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
+            <p class="kop-alamat">
+                Alamat : {{ $setting->alamat ?? '-' }}
+                @if($setting->email) &nbsp;&nbsp; Email: {{ $setting->email }} @endif
+                @if($setting->website) &nbsp;&nbsp; Website: {{ $setting->website }} @endif
             </p>
-        @endif
-    </div>
-</div>
+        </td>
+    </tr>
+</table>
+
+<div class="kop-separator"></div>
 
 @yield('content')
 

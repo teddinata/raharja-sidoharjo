@@ -1,0 +1,130 @@
+StartFontMetrics 4.1
+Notice Converted by PHP-font-lib
+Comment https://github.com/dompdf/php-font-lib
+EncodingScheme FontSpecific
+Copyright Copyright 2018 Google Inc. All Rights Reserved.
+FontName Noto Sans Javanese
+FontSubfamily Regular
+UniqueID 2.000;GOOG;NotoSansJavanese-Regular
+FullName Noto Sans Javanese Regular
+Version Version 2.000
+PostScriptName NotoSansJavanese-Regular
+Trademark Noto is a trademark of Google Inc.
+Manufacturer Monotype Imaging Inc.
+Designer Monotype Design Team
+Description Designed by Monotype design team.
+FontVendorURL http://www.google.com/get/noto/
+FontDesignerURL http://www.monotype.com/studio
+LicenseDescription This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software.
+LicenseURL http://scripts.sil.org/OFL
+Weight Medium
+ItalicAngle 0
+IsFixedPitch false
+UnderlineThickness 50
+UnderlinePosition -100
+FontHeightOffset 0
+Ascender 1120
+Descender -916
+FontBBox -1567 -916 2209 1044
+StartCharMetrics 405
+U 0 ; WX 0 ; N uni0000 ; G 1
+U 13 ; WX 260 ; N uni000d ; G 2
+U 32 ; WX 260 ; N uni0020 ; G 3
+U 160 ; WX 260 ; N uni00a0 ; G 4
+U 8203 ; WX 0 ; N uni200b ; G 5
+U 8204 ; WX 0 ; N uni200c ; G 6
+U 8205 ; WX 0 ; N uni200d ; G 7
+U 9676 ; WX 594 ; N uni25cc ; G 8
+U 43392 ; WX 0 ; N unia980 ; G 9
+U 43393 ; WX 0 ; N unia981 ; G 10
+U 43394 ; WX 0 ; N unia982 ; G 11
+U 43395 ; WX 353 ; N unia983 ; G 12
+U 43396 ; WX 1338 ; N unia984 ; G 13
+U 43397 ; WX 976 ; N unia985 ; G 14
+U 43398 ; WX 1207 ; N unia986 ; G 15
+U 43399 ; WX 1207 ; N unia987 ; G 16
+U 43400 ; WX 976 ; N unia988 ; G 17
+U 43401 ; WX 963 ; N unia989 ; G 18
+U 43402 ; WX 977 ; N unia98a ; G 19
+U 43403 ; WX 977 ; N unia98b ; G 20
+U 43404 ; WX 781 ; N unia98c ; G 21
+U 43405 ; WX 781 ; N unia98d ; G 22
+U 43406 ; WX 967 ; N unia98e ; G 23
+U 43407 ; WX 1221 ; N unia98f ; G 24
+U 43408 ; WX 1221 ; N unia990 ; G 25
+U 43409 ; WX 1289 ; N unia991 ; G 26
+U 43410 ; WX 938 ; N unia992 ; G 27
+U 43411 ; WX 1258 ; N unia993 ; G 28
+U 43412 ; WX 976 ; N unia994 ; G 29
+U 43413 ; WX 1043 ; N unia995 ; G 30
+U 43414 ; WX 1479 ; N unia996 ; G 31
+U 43415 ; WX 991 ; N unia997 ; G 32
+U 43416 ; WX 991 ; N unia998 ; G 33
+U 43417 ; WX 1159 ; N unia999 ; G 34
+U 43418 ; WX 1439 ; N unia99a ; G 37
+U 43419 ; WX 976 ; N unia99b ; G 38
+U 43420 ; WX 976 ; N unia99c ; G 39
+U 43421 ; WX 1071 ; N unia99d ; G 40
+U 43422 ; WX 841 ; N unia99e ; G 41
+U 43423 ; WX 1198 ; N unia99f ; G 42
+U 43424 ; WX 1183 ; N unia9a0 ; G 43
+U 43425 ; WX 967 ; N unia9a1 ; G 44
+U 43426 ; WX 1063 ; N unia9a2 ; G 45
+U 43427 ; WX 1027 ; N unia9a3 ; G 46
+U 43428 ; WX 989 ; N unia9a4 ; G 47
+U 43429 ; WX 963 ; N unia9a5 ; G 48
+U 43430 ; WX 1027 ; N unia9a6 ; G 49
+U 43431 ; WX 1207 ; N unia9a7 ; G 50
+U 43432 ; WX 1019 ; N unia9a8 ; G 51
+U 43433 ; WX 970 ; N unia9a9 ; G 52
+U 43434 ; WX 1383 ; N unia9aa ; G 53
+U 43435 ; WX 915 ; N unia9ab ; G 54
+U 43436 ; WX 1293 ; N unia9ac ; G 55
+U 43437 ; WX 1194 ; N unia9ad ; G 56
+U 43438 ; WX 967 ; N unia9ae ; G 57
+U 43439 ; WX 938 ; N unia9af ; G 58
+U 43440 ; WX 1012 ; N unia9b0 ; G 59
+U 43441 ; WX 1088 ; N unia9b1 ; G 60
+U 43442 ; WX 1195 ; N unia9b2 ; G 61
+U 43443 ; WX 0 ; N unia9b3 ; G 62
+U 43444 ; WX 413 ; N unia9b4 ; G 78
+U 43445 ; WX 439 ; N unia9b5 ; G 79
+U 43446 ; WX 0 ; N unia9b6 ; G 80
+U 43447 ; WX 0 ; N unia9b7 ; G 84
+U 43448 ; WX 0 ; N unia9b8 ; G 88
+U 43449 ; WX 0 ; N unia9b9 ; G 90
+U 43450 ; WX 677 ; N unia9ba ; G 92
+U 43451 ; WX 677 ; N unia9bb ; G 93
+U 43452 ; WX 0 ; N unia9bc ; G 94
+U 43453 ; WX 0 ; N unia9bd ; G 98
+U 43454 ; WX 376 ; N unia9be ; G 100
+U 43455 ; WX 238 ; N unia9bf ; G 109
+U 43456 ; WX 391 ; N unia9c0 ; G 112
+U 43457 ; WX 1562 ; N unia9c1 ; G 113
+U 43458 ; WX 1562 ; N unia9c2 ; G 114
+U 43459 ; WX 2012 ; N unia9c3 ; G 115
+U 43460 ; WX 1981 ; N unia9c4 ; G 116
+U 43461 ; WX 1981 ; N unia9c5 ; G 117
+U 43462 ; WX 605 ; N unia9c6 ; G 118
+U 43463 ; WX 269 ; N unia9c7 ; G 119
+U 43464 ; WX 470 ; N unia9c8 ; G 120
+U 43465 ; WX 687 ; N unia9c9 ; G 121
+U 43466 ; WX 244 ; N unia9ca ; G 122
+U 43467 ; WX 439 ; N unia9cb ; G 123
+U 43468 ; WX 294 ; N unia9cc ; G 124
+U 43469 ; WX 294 ; N unia9cd ; G 125
+U 43471 ; WX 437 ; N unia9cf ; G 126
+U 43472 ; WX 605 ; N unia9d0 ; G 127
+U 43473 ; WX 938 ; N unia9d1 ; G 128
+U 43474 ; WX 977 ; N unia9d2 ; G 129
+U 43475 ; WX 1352 ; N unia9d3 ; G 130
+U 43476 ; WX 590 ; N unia9d4 ; G 131
+U 43477 ; WX 741 ; N unia9d5 ; G 132
+U 43478 ; WX 781 ; N unia9d6 ; G 133
+U 43479 ; WX 1195 ; N unia9d7 ; G 134
+U 43480 ; WX 1027 ; N unia9d8 ; G 135
+U 43481 ; WX 1383 ; N unia9d9 ; G 136
+U 43486 ; WX 586 ; N unia9de ; G 137
+U 43487 ; WX 677 ; N unia9df ; G 138
+EndCharMetrics
+EndFontMetrics

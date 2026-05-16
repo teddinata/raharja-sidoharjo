@@ -11,7 +11,7 @@
         <tr><td class="label">Umur</td><td class="sep">:</td><td class="value">{{ $p->umur ?? '-' }} tahun</td></tr>
         <tr><td class="label">Nama Ayah</td><td class="sep">:</td><td class="value">{{ $p->nama_ayah ?? '-' }}</td></tr>
         <tr><td class="label">Nama Ibu</td><td class="sep">:</td><td class="value">{{ $p->nama_ibu ?? '-' }}</td></tr>
-        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }}, RT {{ $p->rt ?? '-' }}/RW {{ $p->rw ?? '-' }}, Kalurahan {{ $setting->nama_kelurahan }}</td></tr>
+        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
     </table>
 </div>
 <div class="penutup"><p>Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>

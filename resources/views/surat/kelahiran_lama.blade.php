@@ -11,7 +11,7 @@
         <tr><td class="label">Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ isset($extra['tanggal_lahir_bayi']) ? \Carbon\Carbon::parse($extra['tanggal_lahir_bayi'])->translatedFormat('d F Y') : '-' }}</td></tr>
         <tr><td class="label">Nama Ayah</td><td class="sep">:</td><td class="value">{{ $extra['nama_ayah'] ?? '-' }}</td></tr>
         <tr><td class="label">Nama Ibu</td><td class="sep">:</td><td class="value">{{ $extra['nama_ibu'] ?? '-' }}</td></tr>
-        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }}, RT {{ $p->rt ?? '-' }}/RW {{ $p->rw ?? '-' }}, Kalurahan {{ $setting->nama_kelurahan }}</td></tr>
+        <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
     </table>
     @if(!empty($extra['keterangan_lama']))<p style="margin-top:12px;">Keterangan keterlambatan: {{ $extra['keterangan_lama'] }}</p>@endif
 </div>

@@ -25,8 +25,7 @@
         <tr><td class="label">Jenis Kelamin</td><td class="sep">:</td><td class="value">{{ $p->jenis_kelamin ?? '-' }}</td></tr>
         <tr><td class="label">Agama</td><td class="sep">:</td><td class="value">{{ $p->agama ?? '-' }}</td></tr>
         <tr><td class="label">Alamat</td><td class="sep">:</td>
-            <td class="value">{{ $p->pedukuhan ?? '-' }}, RT {{ $p->rt ?? '-' }}/RW {{ $p->rw ?? '-' }},
-            Kalurahan {{ $setting->nama_kelurahan }}</td></tr>
+            <td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
     </table>
 
     <p style="margin-top:12px;">Adalah benar-benar memiliki usaha dengan keterangan sebagai berikut:</p>
@@ -34,7 +33,7 @@
     <table class="data" style="margin-top:8px;">
         <tr><td class="label">Nama Usaha</td><td class="sep">:</td><td class="value">{{ $extra['nama_usaha'] ?? '-' }}</td></tr>
         <tr><td class="label">Jenis Usaha</td><td class="sep">:</td><td class="value">{{ $extra['jenis_usaha'] ?? '-' }}</td></tr>
-        <tr><td class="label">Alamat Usaha</td><td class="sep">:</td><td class="value">{{ $extra['alamat_usaha'] ?? ($p->alamat_lengkap ?: '-') }}</td></tr>
+        <tr><td class="label">Alamat Usaha</td><td class="sep">:</td><td class="value">{{ $extra['alamat_usaha'] ?? ($p->alamat_lengkap.', '.$setting->nama_kelurahan.', '.$setting->nama_kapanewon.', '.$setting->nama_kabupaten) }}</td></tr>
     </table>
 </div>
 

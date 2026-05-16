@@ -29,6 +29,8 @@ class RegisterExport implements WithMultipleSheets
 
 class RegisterSheetExport implements FromQuery, WithHeadings, WithMapping, WithStyles, WithTitle
 {
+    private int $no = 0;
+
     public function __construct(private array $filters = []) {}
 
     public function title(): string
@@ -78,11 +80,8 @@ class RegisterSheetExport implements FromQuery, WithHeadings, WithMapping, WithS
 
     public function map($row): array
     {
-        static $no = 0;
-        $no++;
-
         return [
-            $no,
+            ++$this->no,
             $row->nomor_register,
             $row->tanggal_pelayanan->format('d/m/Y'),
             $row->jenis_pelayanan,

@@ -38,9 +38,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/surat/{id}/pdf',       [SuratController::class, 'downloadPdf']);
     Route::get('/surat/{id}/docx',      [SuratController::class, 'downloadDocx']);
 
-    Route::get('/register',         [RegisterController::class, 'index']);
-    Route::get('/register/rekap',   [RegisterController::class, 'rekap']);
-    Route::get('/register/export',  [RegisterController::class, 'export']);
+    Route::get('/register',             [RegisterController::class, 'index']);
+    Route::get('/register/rekap',       [RegisterController::class, 'rekap']);
+    Route::get('/register/export',      [RegisterController::class, 'export']);
+
+    // ── Admin only ────────────────────────────────────────────
+    Route::middleware('auth.admin')->group(function () {
+        Route::put('/register/{id}',    [RegisterController::class, 'update']);
+        Route::delete('/register/{id}', [RegisterController::class, 'destroy']);
+    });
 
     // ── Admin only ────────────────────────────────────────────
     Route::middleware('auth.admin')->group(function () {

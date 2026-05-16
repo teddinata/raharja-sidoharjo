@@ -526,6 +526,21 @@ class JenisSuratSeeder extends Seeder
                     ['key' => 'alasan_duplikat','label' => 'Alasan Duplikat', 'type' => 'text', 'required' => false],
                 ],
             ],
+
+            // ── SURAT KUSTOM ──────────────────────────────────────────────────
+            [
+                'kode'                  => 'CUSTOM',
+                'nama'                  => 'Surat Kustom',
+                'kategori'              => 'Kustom',
+                'nomor_format'          => '474.4',
+                'melibatkan_pihak_luar' => false,
+                'template_blade'        => 'surat.custom',
+                'urutan'                => 99,
+                'fields_tambahan'       => [
+                    ['key' => 'judul_surat', 'label' => 'Judul Surat', 'type' => 'text', 'required' => true, 'placeholder' => 'contoh: SURAT KETERANGAN AKTIF ORGANISASI'],
+                    ['key' => 'perihal',     'label' => 'Perihal / Keperluan', 'type' => 'text', 'required' => false],
+                ],
+            ],
         ];
 
         foreach ($data as $item) {
