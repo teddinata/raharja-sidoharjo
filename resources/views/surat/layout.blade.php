@@ -16,9 +16,10 @@
             font-style: normal;
         }
         @font-face {
-            font-family: 'NotoJavanese';
-            src: url('{{ public_path("fonts/NotoSansJavanese.otf") }}');
+            font-family: 'NgayogyanJawa';
+            src: url('{{ public_path("fonts/NgayogyanNewItalic.ttf") }}');
             font-weight: normal;
+            font-style: normal;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,7 +28,7 @@
             font-family: Arial, sans-serif;
             font-size: 11pt;
             color: #000;
-            padding: 1.2cm 2cm 1.5cm 2cm;
+            padding: 0.6cm 2cm 1.5cm 2cm;
         }
 
         /* ── KOP ──────────────────────────────────────────────── */
@@ -71,7 +72,7 @@
             line-height: 1.3;
         }
         .kop-jawa {
-            font-family: 'NotoJavanese', serif;
+            font-family: 'NgayogyanJawa', serif;
             font-size: 12pt;
             line-height: 1.6;
             margin-top: 2px;
