@@ -32,20 +32,23 @@
         }
 
         /* ── KOP ──────────────────────────────────────────────── */
-        .kop-wrap {
-            position: relative;
+        table.kop {
             width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
         }
-        .kop-logo {
-            position: absolute;
-            top: 0;
-            left: 0;
+        td.kop-logo-cell {
+            width: 90px;
+            vertical-align: top;
+            padding-right: 10px;
+        }
+        td.kop-logo-cell img {
             width: 85px;
+            height: auto;
         }
-        .kop-teks {
-            width: 100%;
+        td.kop-teks-cell {
+            vertical-align: top;
             text-align: center;
-            padding: 0 100px;
         }
         .kop-kab {
             font-family: Arial, sans-serif;
@@ -71,15 +74,15 @@
         .kop-jawa {
             font-family: 'NgayogyanJawa', serif;
             font-size: 12pt;
-            line-height: 1.6;
-            margin-top: 2px;
+            line-height: 1.2;
+            margin-top: 1px;
             text-align: center;
         }
         .kop-alamat {
             font-family: Arial, sans-serif;
             font-size: 8pt;
-            line-height: 1.5;
-            margin-top: 3px;
+            line-height: 1.3;
+            margin-top: 1px;
             text-align: center;
         }
 
@@ -89,8 +92,8 @@
             border-top: 3px solid #000;
             border-bottom: 1px solid #000;
             padding-bottom: 2px;
-            margin-top: 6px;
-            margin-bottom: 8px;
+            margin-top: 4px;
+            margin-bottom: 6px;
         }
 
         /* ── JUDUL SURAT ──────────────────────────────────────── */
@@ -164,40 +167,34 @@
 <body>
 
 {{-- ── KOP SURAT ─────────────────────────────────────────────────────── --}}
-@php
-    $logoAbs = ($setting->logo_path && file_exists(storage_path('app/public/' . $setting->logo_path)))
-        ? storage_path('app/public/' . $setting->logo_path)
-        : null;
-    $logoHeight = null;
-    if ($logoAbs) {
-        $dim = @getimagesize($logoAbs);
-        if ($dim && $dim[0] > 0) {
-            $logoHeight = round(85 * $dim[1] / $dim[0]);
-        }
-    }
-@endphp
-<div class="kop-wrap" style="{{ $logoHeight ? 'min-height:'.$logoHeight.'px;' : '' }}">
-    @if($logoAbs)
-        <img class="kop-logo" src="{{ $logoAbs }}" style="{{ $logoHeight ? 'height:'.$logoHeight.'px;' : '' }}">
-    @endif
+<table class="kop">
+    <tr>
+        {{-- Logo --}}
+        <td class="kop-logo-cell">
+            @if($setting->logo_path && file_exists(storage_path('app/public/' . $setting->logo_path)))
+                <img src="{{ storage_path('app/public/' . $setting->logo_path) }}">
+            @endif
+        </td>
 
-    <div class="kop-teks">
-        <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
-        <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
-        <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
-        <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
-        @php
-            $alamat  = rtrim($setting->alamat ?? '-', ' ,');
-            $kontak  = [];
-            if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
-            if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
-        @endphp
-        <p class="kop-alamat">Alamat : {{ $alamat }}</p>
-        @if(count($kontak))
-        <p class="kop-alamat" style="margin-top:0;">{{ implode('  |  ', $kontak) }}</p>
-        @endif
-    </div>
-</div>
+        {{-- Teks kop --}}
+        <td class="kop-teks-cell">
+            <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
+            <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
+            <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
+            <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
+            @php
+                $alamat  = rtrim($setting->alamat ?? '-', ' ,');
+                $kontak  = [];
+                if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
+                if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
+            @endphp
+            <p class="kop-alamat">Alamat : {{ $alamat }}</p>
+            @if(count($kontak))
+            <p class="kop-alamat" style="margin-top:0;">{{ implode('  |  ', $kontak) }}</p>
+            @endif
+        </td>
+    </tr>
+</table>
 
 <div class="kop-separator"></div>
 
