@@ -76,12 +76,14 @@
             font-size: 12pt;
             line-height: 1.6;
             margin-top: 2px;
+            text-align: center;
         }
         .kop-alamat {
             font-family: Arial, sans-serif;
             font-size: 8pt;
             line-height: 1.5;
             margin-top: 3px;
+            text-align: center;
         }
 
         /* Separator garis tebal + tipis (double line) */
@@ -91,13 +93,13 @@
             border-bottom: 1px solid #000;
             padding-bottom: 2px;
             margin-top: 6px;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
         }
 
         /* ── JUDUL SURAT ──────────────────────────────────────── */
         .judul {
             text-align: center;
-            margin: 14px 0 8px;
+            margin: 10px 0 6px;
         }
         .judul h3 {
             font-family: Arial, sans-serif;
@@ -113,8 +115,8 @@
 
         /* ── ISI ─────────────────────────────────────────────── */
         .isi {
-            margin-top: 14px;
-            line-height: 1.8;
+            margin-top: 8px;
+            line-height: 1.5;
             font-family: Arial, sans-serif;
             font-size: 11pt;
         }
@@ -136,20 +138,21 @@
 
         /* ── PENUTUP & TTD ───────────────────────────────────── */
         .penutup {
-            margin-top: 14px;
-            line-height: 1.8;
+            margin-top: 10px;
+            line-height: 1.5;
             font-family: Arial, sans-serif;
             font-size: 11pt;
         }
         .ttd {
-            margin-top: 28px;
+            margin-top: 16px;
             text-align: right;
-            line-height: 1.8;
+            line-height: 1.5;
             font-family: Arial, sans-serif;
             font-size: 11pt;
+            page-break-inside: avoid;
         }
         .ttd .nama {
-            margin-top: 40px;
+            margin-top: 30px;
             font-weight: bold;
             text-decoration: underline;
         }
@@ -178,20 +181,21 @@
             <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
             <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
             <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
-            <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
-            @php
-                $alamat  = rtrim($setting->alamat ?? '-', ' ,');
-                $kontak  = [];
-                if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
-                if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
-            @endphp
-            <p class="kop-alamat">Alamat : {{ $alamat }}</p>
-            @if(count($kontak))
-            <p class="kop-alamat" style="margin-top:0;">{{ implode('  |  ', $kontak) }}</p>
-            @endif
         </td>
     </tr>
 </table>
+
+@php
+    $alamat  = rtrim($setting->alamat ?? '-', ' ,');
+    $kontak  = [];
+    if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
+    if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
+@endphp
+<p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
+<p class="kop-alamat">Alamat : {{ $alamat }}</p>
+@if(count($kontak))
+<p class="kop-alamat" style="margin-top:0;">{{ implode('  |  ', $kontak) }}</p>
+@endif
 
 <div class="kop-separator"></div>
 
