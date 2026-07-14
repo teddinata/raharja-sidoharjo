@@ -55,34 +55,34 @@
             font-size: 14pt;
             font-weight: bold;
             text-transform: uppercase;
-            line-height: 1.3;
+            line-height: 1.05;
         }
         .kop-kap {
             font-family: Arial, sans-serif;
             font-size: 14pt;
             font-weight: bold;
             text-transform: uppercase;
-            line-height: 1.3;
+            line-height: 1.05;
         }
         .kop-kal {
             font-family: Arial, sans-serif;
             font-size: 18pt;
             font-weight: bold;
             text-transform: uppercase;
-            line-height: 1.3;
+            line-height: 1.05;
         }
         .kop-jawa {
             font-family: 'NgayogyanJawa', serif;
             font-size: 12pt;
-            line-height: 1.2;
-            margin-top: 1px;
+            line-height: 1;
+            margin-top: 0;
             text-align: center;
         }
         .kop-alamat {
             font-family: Arial, sans-serif;
             font-size: 8pt;
-            line-height: 1.3;
-            margin-top: 1px;
+            line-height: 1.1;
+            margin-top: 0;
             text-align: center;
         }
 
@@ -91,9 +91,9 @@
             width: 100%;
             border-top: 3px solid #000;
             border-bottom: 1px solid #000;
-            padding-bottom: 2px;
-            margin-top: 4px;
-            margin-bottom: 6px;
+            padding-bottom: 1px;
+            margin-top: 2px;
+            margin-bottom: 4px;
         }
 
         /* ── JUDUL SURAT ──────────────────────────────────────── */
