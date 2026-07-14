@@ -39,7 +39,7 @@
         }
         td.kop-logo-cell {
             width: 90px;
-            vertical-align: middle;
+            vertical-align: top;
             padding-right: 10px;
         }
         td.kop-logo-cell img {
@@ -47,7 +47,7 @@
             height: auto;
         }
         td.kop-teks-cell {
-            vertical-align: middle;
+            vertical-align: top;
             text-align: center;
         }
         .kop-kab {
@@ -181,21 +181,20 @@
             <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
             <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
             <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
+            <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
+            @php
+                $alamat  = rtrim($setting->alamat ?? '-', ' ,');
+                $kontak  = [];
+                if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
+                if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
+            @endphp
+            <p class="kop-alamat">Alamat : {{ $alamat }}</p>
+            @if(count($kontak))
+            <p class="kop-alamat" style="margin-top:0;">{{ implode('  |  ', $kontak) }}</p>
+            @endif
         </td>
     </tr>
 </table>
-
-@php
-    $alamat  = rtrim($setting->alamat ?? '-', ' ,');
-    $kontak  = [];
-    if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
-    if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
-@endphp
-<p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
-<p class="kop-alamat">Alamat : {{ $alamat }}</p>
-@if(count($kontak))
-<p class="kop-alamat" style="margin-top:0;">{{ implode('  |  ', $kontak) }}</p>
-@endif
 
 <div class="kop-separator"></div>
 
