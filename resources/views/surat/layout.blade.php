@@ -52,21 +52,21 @@
         }
         .kop-kab {
             font-family: Arial, sans-serif;
-            font-size: 14pt;
+            font-size: 12pt;
             font-weight: bold;
             text-transform: uppercase;
             line-height: 1.05;
         }
         .kop-kap {
             font-family: Arial, sans-serif;
-            font-size: 14pt;
+            font-size: 12pt;
             font-weight: bold;
             text-transform: uppercase;
             line-height: 1.05;
         }
         .kop-kal {
             font-family: Arial, sans-serif;
-            font-size: 18pt;
+            font-size: 15pt;
             font-weight: bold;
             text-transform: uppercase;
             line-height: 1.05;
@@ -75,7 +75,7 @@
             font-family: 'NgayogyanJawa', serif;
             font-size: 12pt;
             line-height: 1;
-            margin-top: 0;
+            margin-top: -2px;
             text-align: center;
         }
         .kop-alamat {
