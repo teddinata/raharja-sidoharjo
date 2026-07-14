@@ -32,23 +32,20 @@
         }
 
         /* ── KOP ──────────────────────────────────────────────── */
-        table.kop {
+        .kop-wrap {
+            position: relative;
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 0;
         }
-        td.kop-logo-cell {
-            width: 90px;
-            vertical-align: top;
-            padding-right: 10px;
-        }
-        td.kop-logo-cell img {
+        .kop-logo {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 85px;
-            height: auto;
         }
-        td.kop-teks-cell {
-            vertical-align: top;
+        .kop-teks {
+            width: 100%;
             text-align: center;
+            padding: 0 100px;
         }
         .kop-kab {
             font-family: Arial, sans-serif;
@@ -167,34 +164,40 @@
 <body>
 
 {{-- ── KOP SURAT ─────────────────────────────────────────────────────── --}}
-<table class="kop">
-    <tr>
-        {{-- Logo --}}
-        <td class="kop-logo-cell">
-            @if($setting->logo_path && file_exists(storage_path('app/public/' . $setting->logo_path)))
-                <img src="{{ storage_path('app/public/' . $setting->logo_path) }}">
-            @endif
-        </td>
+@php
+    $logoAbs = ($setting->logo_path && file_exists(storage_path('app/public/' . $setting->logo_path)))
+        ? storage_path('app/public/' . $setting->logo_path)
+        : null;
+    $logoHeight = null;
+    if ($logoAbs) {
+        $dim = @getimagesize($logoAbs);
+        if ($dim && $dim[0] > 0) {
+            $logoHeight = round(85 * $dim[1] / $dim[0]);
+        }
+    }
+@endphp
+<div class="kop-wrap" style="{{ $logoHeight ? 'min-height:'.$logoHeight.'px;' : '' }}">
+    @if($logoAbs)
+        <img class="kop-logo" src="{{ $logoAbs }}" style="{{ $logoHeight ? 'height:'.$logoHeight.'px;' : '' }}">
+    @endif
 
-        {{-- Teks kop --}}
-        <td class="kop-teks-cell">
-            <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
-            <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
-            <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
-            <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
-            @php
-                $alamat  = rtrim($setting->alamat ?? '-', ' ,');
-                $kontak  = [];
-                if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
-                if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
-            @endphp
-            <p class="kop-alamat">Alamat : {{ $alamat }}</p>
-            @if(count($kontak))
-            <p class="kop-alamat" style="margin-top:0;">{{ implode('  |  ', $kontak) }}</p>
-            @endif
-        </td>
-    </tr>
-</table>
+    <div class="kop-teks">
+        <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
+        <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
+        <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
+        <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
+        @php
+            $alamat  = rtrim($setting->alamat ?? '-', ' ,');
+            $kontak  = [];
+            if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
+            if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
+        @endphp
+        <p class="kop-alamat">Alamat : {{ $alamat }}</p>
+        @if(count($kontak))
+        <p class="kop-alamat" style="margin-top:0;">{{ implode('  |  ', $kontak) }}</p>
+        @endif
+    </div>
+</div>
 
 <div class="kop-separator"></div>
 
