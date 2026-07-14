@@ -45,6 +45,7 @@
         td.kop-logo-cell img {
             width: 85px;
             height: auto;
+            margin-top: 4px;
         }
         td.kop-teks-cell {
             vertical-align: top;
