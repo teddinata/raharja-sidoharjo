@@ -38,14 +38,13 @@
             margin-bottom: 0;
         }
         td.kop-logo-cell {
-            width: 90px;
+            width: 135px;
             vertical-align: top;
             padding-right: 10px;
         }
         td.kop-logo-cell img {
-            width: 85px;
+            width: 130px;
             height: auto;
-            margin-top: 4px;
         }
         td.kop-teks-cell {
             vertical-align: top;
