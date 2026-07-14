@@ -75,7 +75,7 @@
             font-family: 'NgayogyanJawa', serif;
             font-size: 12pt;
             line-height: 1;
-            margin-top: -6px;
+            margin-top: -10px;
             text-align: center;
         }
         .kop-alamat {
