@@ -16,8 +16,8 @@
             font-style: normal;
         }
         @font-face {
-            font-family: 'HanacarakaJawa';
-            src: url('{{ public_path("fonts/Hanacaraka_Normal.ttf") }}');
+            font-family: 'NgayogyanJawa';
+            src: url('{{ public_path("fonts/NgayogyanNewItalic.ttf") }}');
             font-weight: normal;
             font-style: normal;
         }
@@ -72,10 +72,10 @@
             line-height: 1.05;
         }
         .kop-jawa {
-            font-family: 'HanacarakaJawa', serif;
+            font-family: 'NgayogyanJawa', serif;
             font-size: 12pt;
             line-height: 1;
-            margin-top: 2px;
+            margin-top: -10px;
             text-align: center;
         }
         .kop-alamat {
@@ -181,7 +181,7 @@
             <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
             <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
             <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
-            <p class="kop-jawa">Pemerintah Kalurahan Sidoharjo</p>
+            <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
             @php
                 $alamat  = rtrim($setting->alamat ?? '-', ' ,');
                 $kontak  = [];
