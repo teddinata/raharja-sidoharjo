@@ -77,7 +77,7 @@
             margin-top: -6px;
         }
         .kop-jawa img {
-            height: 15px;
+            height: 26px;
             width: auto;
             vertical-align: middle;
         }
