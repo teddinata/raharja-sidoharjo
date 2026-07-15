@@ -72,11 +72,14 @@
             line-height: 1.05;
         }
         .kop-jawa {
-            font-family: 'NgayogyanJawa', serif;
-            font-size: 12pt;
-            line-height: 1;
-            margin-top: -10px;
             text-align: center;
+            line-height: 1;
+            margin-top: -6px;
+        }
+        .kop-jawa img {
+            height: 15px;
+            width: auto;
+            vertical-align: middle;
         }
         .kop-alamat {
             font-family: Arial, sans-serif;
@@ -181,7 +184,7 @@
             <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
             <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
             <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
-            <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃꦏꦭꦸꦫꦲꦤ꧀ꦱꦶꦢꦲꦂꦗ</p>
+            <p class="kop-jawa"><img src="{{ public_path('images/kop-jawa.png') }}" alt="Pemerintah Kalurahan Sidoharjo"></p>
             @php
                 $alamat  = rtrim($setting->alamat ?? '-', ' ,');
                 $kontak  = [];
