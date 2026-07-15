@@ -74,10 +74,10 @@
         .kop-jawa {
             text-align: center;
             line-height: 1;
-            margin-top: -6px;
+            margin-top: 2px;
         }
         .kop-jawa img {
-            height: 26px;
+            height: 30px;
             width: auto;
             vertical-align: middle;
         }
