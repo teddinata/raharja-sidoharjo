@@ -181,7 +181,7 @@
             <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
             <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
             <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
-            <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃ ꦏꦭꦸꦫꦲꦤ꧀ ꦱꦶꦢꦺꦴꦲꦂꦗꦺꦴ</p>
+            <p class="kop-jawa">ꦥꦼꦩꦼꦫꦶꦤ꧀ꦠꦃꦏꦭꦸꦫꦲꦤ꧀ꦱꦶꦢꦲꦂꦗ</p>
             @php
                 $alamat  = rtrim($setting->alamat ?? '-', ' ,');
                 $kontak  = [];
