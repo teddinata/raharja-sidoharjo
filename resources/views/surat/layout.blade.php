@@ -195,8 +195,8 @@
             @php
                 $alamat  = rtrim($setting->alamat ?? '-', ' ,');
                 if ($setting->kode_pos) $alamat .= ' ' . $setting->kode_pos;
+                if ($setting->telepon)  $alamat .= '  HP ' . $setting->telepon;
                 $kontak  = [];
-                if ($setting->telepon) $kontak[] = 'HP : ' . $setting->telepon;
                 if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
                 if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
             @endphp
