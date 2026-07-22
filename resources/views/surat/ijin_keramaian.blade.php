@@ -19,5 +19,6 @@
     <p style="margin-top:12px;">Tidak keberatan atas penyelenggaraan kegiatan tersebut dengan ketentuan tidak mengganggu ketertiban umum dan keamanan masyarakat.</p>
 </div>
 <div class="penutup"><p>Demikian surat keterangan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>
+@include('surat._berlaku', ['extra' => $extra])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

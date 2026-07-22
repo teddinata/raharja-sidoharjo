@@ -14,5 +14,6 @@
     <p style="margin-top:12px;">Adalah benar-benar warga tidak mampu dan membutuhkan keringanan biaya di <strong>{{ $extra['nama_tpa'] ?? 'TPA' }}</strong>.</p>
 </div>
 <div class="penutup"><p>Demikian surat keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.</p></div>
+@include('surat._berlaku', ['extra' => $extra])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

@@ -125,10 +125,27 @@ class SuratController extends Controller
     }
 
     /**
+     * Override relasi ttd surat sesuai penandatangan yang dipilih saat cetak (lurah/carik).
+     * Default (tidak dipilih / nilai lain) tetap pakai ttd tersimpan di surat (Lurah).
+     */
+    private function resolveTtd(Surat $surat, KelurahanSetting $setting, ?string $penandatangan): void
+    {
+        if ($penandatangan === 'carik') {
+            $surat->setRelation('ttd', new TtdSurat([
+                'surat_id'       => $surat->id,
+                'atas_nama'      => $setting->nama_carik,
+                'jabatan'        => "Carik {$setting->nama_kelurahan}",
+                'nip'            => $setting->nip_carik,
+                'ttd_image_path' => $setting->ttd_carik_path,
+            ]));
+        }
+    }
+
+    /**
      * GET /api/surat/{id}/pdf
      * Generate dan download PDF surat.
      */
-    public function downloadPdf(int $id)
+    public function downloadPdf(Request $request, int $id)
     {
         $surat    = Surat::with(['penduduk', 'jenisSurat', 'ttd'])->findOrFail($id);
         $setting  = KelurahanSetting::instance();
@@ -138,6 +155,8 @@ class SuratController extends Controller
                 'message' => 'Hanya surat berstatus terbit yang bisa didownload.',
             ], 422);
         }
+
+        $this->resolveTtd($surat, $setting, $request->query('penandatangan'));
 
         $template = $surat->jenisSurat->template_blade;
 
@@ -164,7 +183,7 @@ class SuratController extends Controller
      * GET /api/surat/{id}/docx
      * Generate dan download DOCX surat.
      */
-    public function downloadDocx(int $id)
+    public function downloadDocx(Request $request, int $id)
     {
         $surat   = Surat::with(['penduduk', 'jenisSurat', 'ttd'])->findOrFail($id);
         $setting = KelurahanSetting::instance();
@@ -174,6 +193,8 @@ class SuratController extends Controller
                 'message' => 'Hanya surat berstatus terbit yang bisa didownload.',
             ], 422);
         }
+
+        $this->resolveTtd($surat, $setting, $request->query('penandatangan'));
 
         $phpWord  = new PhpWord();
         $section  = $phpWord->addSection();
@@ -264,13 +285,13 @@ class SuratController extends Controller
             ['alignment' => 'right']
         );
         $section->addText(
-            $ttd?->jabatan ?? "Lurah {$setting->nama_kelurahan}",
+            ($ttd ? $ttd->jabatan : null) ?? "Lurah {$setting->nama_kelurahan}",
             ['size' => 11],
             ['alignment' => 'right']
         );
         $section->addTextBreak(3);
         $section->addText(
-            $ttd?->atas_nama ?? $setting->nama_lurah ?? '.....................',
+            ($ttd ? $ttd->atas_nama : $setting->nama_lurah) ?? '.....................',
             ['bold' => true, 'underline' => 'single', 'size' => 11],
             ['alignment' => 'right']
         );

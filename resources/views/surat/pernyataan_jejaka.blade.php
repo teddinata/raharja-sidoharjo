@@ -21,6 +21,7 @@
         <p>Yang membuat pernyataan,</p>
         <p style="margin-top:70px; font-weight:bold; text-decoration:underline;">{{ $p->nama_lengkap }}</p>
     </div>
-    @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
+    @include('surat._berlaku', ['extra' => $extra])
+@include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 </div>
 @endsection

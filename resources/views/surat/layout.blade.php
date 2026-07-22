@@ -63,6 +63,7 @@
             font-weight: bold;
             text-transform: uppercase;
             line-height: 1.05;
+            margin-top: -3px;
         }
         .kop-kal {
             font-family: Arial, sans-serif;
@@ -77,7 +78,7 @@
             margin-top: 2px;
         }
         .kop-jawa img {
-            height: 36px;
+            height: 42px;
             width: auto;
             vertical-align: middle;
         }
@@ -146,6 +147,12 @@
             font-family: Arial, sans-serif;
             font-size: 11pt;
         }
+        .berlaku {
+            margin-top: 14px;
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            font-style: italic;
+        }
         .ttd {
             margin-top: 16px;
             text-align: right;
@@ -187,7 +194,9 @@
             <p class="kop-jawa"><img src="{{ public_path('images/kop-jawa.png') }}" alt="Pemerintah Kalurahan Sidoharjo"></p>
             @php
                 $alamat  = rtrim($setting->alamat ?? '-', ' ,');
+                if ($setting->kode_pos) $alamat .= ' ' . $setting->kode_pos;
                 $kontak  = [];
+                if ($setting->telepon) $kontak[] = 'HP : ' . $setting->telepon;
                 if ($setting->email)   $kontak[] = 'Email : ' . $setting->email;
                 if ($setting->website) $kontak[] = 'Website : ' . $setting->website;
             @endphp

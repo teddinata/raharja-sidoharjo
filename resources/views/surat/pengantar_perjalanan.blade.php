@@ -16,5 +16,6 @@
     <p style="margin-top:12px;">Adalah benar-benar warga Kalurahan {{ $setting->nama_kelurahan }} yang sedang dalam perjalanan ke tujuan tersebut. Mohon pihak yang berwenang dapat memberikan bantuan seperlunya.</p>
 </div>
 <div class="penutup"><p>Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>
+@include('surat._berlaku', ['extra' => $extra])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

@@ -55,6 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/upload/logo',          [UploadController::class, 'uploadLogo']);
         Route::post('/upload/ttd-lurah',     [UploadController::class, 'uploadTtdLurah']);
         Route::delete('/upload/ttd-lurah',   [UploadController::class, 'deleteTtdLurah']);
+        Route::post('/upload/ttd-carik',     [UploadController::class, 'uploadTtdCarik']);
+        Route::delete('/upload/ttd-carik',   [UploadController::class, 'deleteTtdCarik']);
     
         // User management
         Route::get('/users',                          [UserController::class, 'index']);

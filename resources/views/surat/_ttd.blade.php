@@ -1,9 +1,11 @@
 <div class="ttd">
     <p>{{ $setting->nama_kelurahan }}, {{ now()->translatedFormat('d F Y') }}</p>
-    <p>{{ $ttd?->jabatan ?? 'Lurah '.$setting->nama_kelurahan }}</p>
+    <p>{{ ($ttd ? $ttd->jabatan : null) ?? 'Lurah '.$setting->nama_kelurahan }}</p>
 
     @php
-        $ttdPath = $ttd?->ttd_image_path ?? $setting->ttd_lurah_path;
+        // $ttd null sepenuhnya (surat lama tanpa record ttd) -> fallback ke Lurah.
+        // $ttd ada (baik dari surat maupun override Carik) -> pakai data miliknya sendiri, jangan dicampur.
+        $ttdPath = $ttd ? $ttd->ttd_image_path : $setting->ttd_lurah_path;
         $ttdAbsPath = $ttdPath ? storage_path('app/public/' . $ttdPath) : null;
     @endphp
 
@@ -14,6 +16,6 @@
         <br>
     @endif
 
-    <p class="nama">{{ $ttd?->atas_nama ?? $setting->nama_lurah ?? '................................' }}</p>
+    <p class="nama">{{ ($ttd ? $ttd->atas_nama : $setting->nama_lurah) ?? '................................' }}</p>
     @if($ttd?->nip)<p>NIP. {{ $ttd->nip }}</p>@endif
 </div>

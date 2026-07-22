@@ -26,5 +26,6 @@
     <p style="margin-top:12px;">Bahwa yang bersangkutan bermaksud melangsungkan perkawinan dan memohon surat pengantar ke KUA Kapanewon {{ $setting->nama_kapanewon }}.</p>
 </div>
 <div class="penutup"><p>Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>
+@include('surat._berlaku', ['extra' => $extra])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

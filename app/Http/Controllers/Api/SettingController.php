@@ -26,6 +26,8 @@ class SettingController extends Controller
                 'nama_lengkap'   => $setting->nama_lengkap,
                 'nama_lurah'     => $setting->nama_lurah,
                 'nip_lurah'      => $setting->nip_lurah,
+                'nama_carik'     => $setting->nama_carik,
+                'nip_carik'      => $setting->nip_carik,
                 'alamat'         => $setting->alamat,
                 'kode_pos'       => $setting->kode_pos,
                 'telepon'        => $setting->telepon,
@@ -33,6 +35,7 @@ class SettingController extends Controller
                 'website'        => $setting->website,
                 'logo_path'      => $setting->logo_path,
                 'ttd_lurah_path' => $setting->ttd_lurah_path,
+                'ttd_carik_path' => $setting->ttd_carik_path,
             ],
         ]);
     }
@@ -50,6 +53,8 @@ class SettingController extends Controller
             'nama_provinsi'  => 'sometimes|string|max:100',
             'nama_lurah'     => 'sometimes|nullable|string|max:100',
             'nip_lurah'      => 'sometimes|nullable|string|max:30',
+            'nama_carik'     => 'sometimes|nullable|string|max:100',
+            'nip_carik'      => 'sometimes|nullable|string|max:30',
             'alamat'         => 'sometimes|nullable|string',
             'kode_pos'       => 'sometimes|nullable|string|max:10',
             'telepon'        => 'sometimes|nullable|string|max:20',
@@ -60,7 +65,7 @@ class SettingController extends Controller
         $setting = KelurahanSetting::instance();
         $setting->fill($request->only([
             'nama_kelurahan', 'nama_kapanewon', 'nama_kabupaten', 'nama_provinsi',
-            'nama_lurah', 'nip_lurah', 'alamat', 'kode_pos',
+            'nama_lurah', 'nip_lurah', 'nama_carik', 'nip_carik', 'alamat', 'kode_pos',
             'telepon', 'email', 'website',
         ]));
         $setting->updated_at = now();

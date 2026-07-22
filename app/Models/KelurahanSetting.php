@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 #[Fillable([
     'nama_kelurahan', 'nama_kapanewon', 'nama_kabupaten', 'nama_provinsi',
-    'nama_lurah', 'nip_lurah', 'alamat', 'kode_pos', 'telepon',
-    'email', 'website', 'logo_path', 'ttd_lurah_path', 'updated_at',
+    'nama_lurah', 'nip_lurah', 'nama_carik', 'nip_carik', 'alamat', 'kode_pos', 'telepon',
+    'email', 'website', 'logo_path', 'ttd_lurah_path', 'ttd_carik_path', 'updated_at',
 ])]
 class KelurahanSetting extends Model
 {

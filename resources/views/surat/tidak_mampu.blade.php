@@ -45,6 +45,7 @@
     sebagaimana mestinya.</p>
 </div>
 
+@include('surat._berlaku', ['extra' => $extra])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 
 @endsection

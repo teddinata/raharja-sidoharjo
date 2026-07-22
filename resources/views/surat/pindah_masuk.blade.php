@@ -15,5 +15,6 @@
     <p style="margin-top:12px;">Adalah benar-benar telah pindah dan berdomisili di wilayah Kalurahan {{ $setting->nama_kelurahan }}.</p>
 </div>
 <div class="penutup"><p>Demikian surat keterangan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>
+@include('surat._berlaku', ['extra' => $extra])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

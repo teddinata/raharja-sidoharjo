@@ -18,5 +18,6 @@
     <p style="margin-top:12px;">Yang bersangkutan adalah warga Kalurahan {{ $setting->nama_kelurahan }} yang berkelakuan baik dan tidak pernah terlibat tindak pidana.</p>
 </div>
 <div class="penutup"><p>Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>
+@include('surat._berlaku', ['extra' => $extra])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

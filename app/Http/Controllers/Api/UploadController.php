@@ -103,4 +103,59 @@ class UploadController extends Controller
             'message' => 'Tanda tangan Lurah berhasil dihapus.',
         ]);
     }
+
+    /**
+     * POST /api/upload/ttd-carik
+     * Upload tanda tangan digital Carik.
+     */
+    public function uploadTtdCarik(Request $request): JsonResponse
+    {
+        $request->validate([
+            'ttd' => 'required|image|mimes:png|max:1024',
+        ]);
+
+        $setting = KelurahanSetting::instance();
+
+        // Hapus TTD lama jika ada
+        if ($setting->ttd_carik_path && Storage::disk('public')->exists($setting->ttd_carik_path)) {
+            Storage::disk('public')->delete($setting->ttd_carik_path);
+        }
+
+        $path = $request->file('ttd')->storeAs(
+            'kelurahan',
+            'ttd_carik.png',
+            'public'
+        );
+
+        $setting->ttd_carik_path = $path;
+        $setting->updated_at = now();
+        $setting->save();
+
+        return response()->json([
+            'message'  => 'Tanda tangan Carik berhasil diupload.',
+            'ttd_path' => $path,
+            'ttd_url'  => Storage::disk('public')->url($path),
+        ]);
+    }
+
+    /**
+     * DELETE /api/upload/ttd-carik
+     * Hapus tanda tangan digital Carik.
+     */
+    public function deleteTtdCarik(): JsonResponse
+    {
+        $setting = KelurahanSetting::instance();
+
+        if ($setting->ttd_carik_path && Storage::disk('public')->exists($setting->ttd_carik_path)) {
+            Storage::disk('public')->delete($setting->ttd_carik_path);
+        }
+
+        $setting->ttd_carik_path = null;
+        $setting->updated_at = now();
+        $setting->save();
+
+        return response()->json([
+            'message' => 'Tanda tangan Carik berhasil dihapus.',
+        ]);
+    }
 }
