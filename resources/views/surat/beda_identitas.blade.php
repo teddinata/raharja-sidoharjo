@@ -19,6 +19,6 @@
     <p style="margin-top:12px;">Bahwa kedua data tersebut adalah benar-benar milik orang yang sama.</p>
 </div>
 <div class="penutup"><p>Demikian surat keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.</p></div>
-@include('surat._berlaku', ['extra' => $extra])
+@include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

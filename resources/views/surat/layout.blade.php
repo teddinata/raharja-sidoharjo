@@ -161,6 +161,9 @@
             font-size: 11pt;
             page-break-inside: avoid;
         }
+        .ttd .jabatan {
+            white-space: pre-line;
+        }
         .ttd .nama {
             margin-top: 30px;
             font-weight: bold;

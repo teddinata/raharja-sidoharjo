@@ -16,6 +16,6 @@
     @if(!empty($extra['tujuan_instansi']))<p style="margin-top:8px;">Ditujukan kepada: <strong>{{ $extra['tujuan_instansi'] }}</strong></p>@endif
 </div>
 <div class="penutup"><p>Demikian surat keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.</p></div>
-@include('surat._berlaku', ['extra' => $extra])
+@include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

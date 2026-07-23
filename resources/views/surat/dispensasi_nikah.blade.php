@@ -17,6 +17,6 @@
     <p style="margin-top:12px;">Surat keterangan ini dibuat untuk melengkapi persyaratan pengajuan dispensasi nikah ke Pengadilan Agama.</p>
 </div>
 <div class="penutup"><p>Demikian surat keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.</p></div>
-@include('surat._berlaku', ['extra' => $extra])
+@include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

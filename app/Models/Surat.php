@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 #[Fillable([
     'penduduk_id', 'jenis_surat_id', 'dibuat_oleh',
     'nomor_surat', 'data_tambahan', 'data_pihak_luar',
-    'status', 'file_pdf_path', 'file_docx_path', 'dicetak_at',
+    'status', 'file_pdf_path', 'file_docx_path', 'dicetak_at', 'diterbitkan_at',
 ])]
 class Surat extends Model
 {
@@ -20,6 +20,7 @@ class Surat extends Model
             'data_tambahan'   => 'array',
             'data_pihak_luar' => 'array',
             'dicetak_at'      => 'datetime',
+            'diterbitkan_at'  => 'datetime',
         ];
     }
 
@@ -29,8 +30,9 @@ class Surat extends Model
             throw new \LogicException("Surat berstatus [{$this->status}] tidak bisa diterbitkan.");
         }
 
-        $this->nomor_surat = $this->jenisSurat->generateNomorSurat();
-        $this->status      = 'terbit';
+        $this->nomor_surat    = $this->jenisSurat->generateNomorSurat();
+        $this->status         = 'terbit';
+        $this->diterbitkan_at = now();
         $this->save();
 
         RegisterPelayanan::create([

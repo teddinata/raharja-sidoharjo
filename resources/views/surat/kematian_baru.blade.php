@@ -19,6 +19,6 @@
     <p style="margin-top:12px;">Adalah benar-benar telah meninggal dunia pada waktu tersebut di atas.</p>
 </div>
 <div class="penutup"><p>Demikian surat keterangan kematian ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.</p></div>
-@include('surat._berlaku', ['extra' => $extra])
+@include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

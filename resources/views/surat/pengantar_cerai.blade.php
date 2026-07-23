@@ -16,6 +16,6 @@
     <p style="margin-top:12px;">Bermaksud untuk mengajukan gugatan cerai ke Pengadilan Agama Kabupaten {{ $setting->nama_kabupaten }}. Surat ini dibuat sebagai pengantar.</p>
 </div>
 <div class="penutup"><p>Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>
-@include('surat._berlaku', ['extra' => $extra])
+@include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
 @endsection

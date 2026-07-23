@@ -1,6 +1,6 @@
 <div class="ttd">
     <p>{{ $setting->nama_kelurahan }}, {{ now()->translatedFormat('d F Y') }}</p>
-    <p>{{ ($ttd ? $ttd->jabatan : null) ?? 'Lurah '.$setting->nama_kelurahan }}</p>
+    <p class="jabatan">{{ ($ttd ? $ttd->jabatan : null) ?? 'Lurah '.$setting->nama_kelurahan }}</p>
 
     @php
         // $ttd null sepenuhnya (surat lama tanpa record ttd) -> fallback ke Lurah.

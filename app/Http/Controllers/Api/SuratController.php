@@ -134,7 +134,7 @@ class SuratController extends Controller
             $surat->setRelation('ttd', new TtdSurat([
                 'surat_id'       => $surat->id,
                 'atas_nama'      => $setting->nama_carik,
-                'jabatan'        => "Carik {$setting->nama_kelurahan}",
+                'jabatan'        => "An Lurah {$setting->nama_kelurahan}\nCarik",
                 'nip'            => $setting->nip_carik,
                 'ttd_image_path' => $setting->ttd_carik_path,
             ]));
@@ -284,11 +284,14 @@ class SuratController extends Controller
             ['size' => 11],
             ['alignment' => 'right']
         );
-        $section->addText(
-            ($ttd ? $ttd->jabatan : null) ?? "Lurah {$setting->nama_kelurahan}",
-            ['size' => 11],
-            ['alignment' => 'right']
-        );
+        $jabatan = ($ttd ? $ttd->jabatan : null) ?? "Lurah {$setting->nama_kelurahan}";
+        foreach (explode("\n", $jabatan) as $jabatanLine) {
+            $section->addText(
+                $jabatanLine,
+                ['size' => 11],
+                ['alignment' => 'right']
+            );
+        }
         $section->addTextBreak(3);
         $section->addText(
             ($ttd ? $ttd->atas_nama : $setting->nama_lurah) ?? '.....................',
