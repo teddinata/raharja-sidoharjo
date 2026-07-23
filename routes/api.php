@@ -18,6 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/auth/me',      [AuthController::class, 'me']);
     Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/auth/sessions',          [AuthController::class, 'sessions']);
+    Route::delete('/auth/sessions/{id}',  [AuthController::class, 'revokeSession']);
 
     // Master data
     Route::get('/penduduk',               [PendudukController::class, 'index']);
