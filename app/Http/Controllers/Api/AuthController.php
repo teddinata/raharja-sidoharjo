@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 class AuthController extends Controller
 {
     /** Maksimal sesi login aktif bersamaan per user. */
-    private const MAX_SESSIONS = 2;
+    private const MAX_SESSIONS = 3;
 
     public function login(Request $request): JsonResponse
     {
