@@ -1,6 +1,6 @@
 @extends('surat.layout')
 @section('content')
-@php $p = $surat->penduduk; $ttd = $surat->ttd; $tgl = now()->translatedFormat('d F Y'); @endphp
+@php $p = $surat->penduduk; $extra = $surat->data_tambahan ?? []; $ttd = $surat->ttd; $tgl = now()->translatedFormat('d F Y'); @endphp
 <div class="judul"><h3>Surat Keterangan Belum Pernah Menikah</h3><p>Nomor: {{ $surat->nomor_surat }}</p></div>
 <div class="isi">
     <p>Yang bertanda tangan di bawah ini, Lurah {{ $setting->nama_kelurahan }}, Kapanewon {{ $setting->nama_kapanewon }}, Kabupaten {{ $setting->nama_kabupaten }}, dengan ini menerangkan bahwa:</p>

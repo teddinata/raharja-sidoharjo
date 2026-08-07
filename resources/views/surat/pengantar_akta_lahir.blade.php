@@ -6,6 +6,10 @@
     <p>Yang bertanda tangan di bawah ini, Lurah {{ $setting->nama_kelurahan }}, dengan ini mengantarkan permohonan akta kelahiran atas nama:</p>
     <table class="data" style="margin-top:12px;">
         <tr><td class="label">Nama Anak</td><td class="sep">:</td><td class="value">{{ $extra['nama_bayi'] ?? '-' }}</td></tr>
+        <tr><td class="label">Jam Lahir</td><td class="sep">:</td><td class="value">{{ $extra['jam_lahir_bayi'] ?? '-' }}</td></tr>
+        <tr><td class="label">Tempat Lahir</td><td class="sep">:</td><td class="value">{{ $extra['tempat_lahir_bayi'] ?? '-' }}</td></tr>
+        <tr><td class="label">Nama Ibu</td><td class="sep">:</td><td class="value">{{ $extra['nama_ibu'] ?? '-' }}</td></tr>
+        <tr><td class="label">NIK Ibu</td><td class="sep">:</td><td class="value">{{ $extra['nik_ibu'] ?? '-' }}</td></tr>
         <tr><td class="label">Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ isset($extra['tanggal_lahir_bayi']) ? \Carbon\Carbon::parse($extra['tanggal_lahir_bayi'])->translatedFormat('d F Y') : '-' }}</td></tr>
         <tr><td class="label">Nama Ayah</td><td class="sep">:</td><td class="value">{{ $p->nama_lengkap }}</td></tr>
         <tr><td class="label">NIK Ayah</td><td class="sep">:</td><td class="value">{{ $p->nik ?? '-' }}</td></tr>

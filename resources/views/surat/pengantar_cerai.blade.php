@@ -11,9 +11,9 @@
         <tr><td class="label">Agama</td><td class="sep">:</td><td class="value">{{ $p->agama ?? '-' }}</td></tr>
         <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
         <tr><td class="label">Nama Pasangan</td><td class="sep">:</td><td class="value">{{ $extra['nama_pasangan'] ?? '-' }}</td></tr>
+        <tr><td class="label">Tujuan</td><td class="sep">:</td><td class="value">{{ $extra['tujuan'] ?? '-' }}</td></tr>
         @if(!empty($extra['alasan_cerai']))<tr><td class="label">Alasan</td><td class="sep">:</td><td class="value">{{ $extra['alasan_cerai'] }}</td></tr>@endif
     </table>
-    <p style="margin-top:12px;">Bermaksud untuk mengajukan gugatan cerai ke Pengadilan Agama Kabupaten {{ $setting->nama_kabupaten }}. Surat ini dibuat sebagai pengantar.</p>
 </div>
 <div class="penutup"><p>Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>
 @include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])

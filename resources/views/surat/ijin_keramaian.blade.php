@@ -14,6 +14,10 @@
         <tr><td class="label">Nama Acara</td><td class="sep">:</td><td class="value">{{ $extra['nama_acara'] ?? '-' }}</td></tr>
         <tr><td class="label">Tanggal Acara</td><td class="sep">:</td><td class="value">{{ isset($extra['tanggal_acara']) ? \Carbon\Carbon::parse($extra['tanggal_acara'])->translatedFormat('d F Y') : '-' }}</td></tr>
         <tr><td class="label">Tempat Acara</td><td class="sep">:</td><td class="value">{{ $extra['tempat_acara'] ?? '-' }}</td></tr>
+        <tr><td class="label">Batas Utara</td><td class="sep">:</td><td class="value">{{ $extra['batas_utara'] ?? '-' }}</td></tr>
+        <tr><td class="label">Batas Timur</td><td class="sep">:</td><td class="value">{{ $extra['batas_timur'] ?? '-' }}</td></tr>
+        <tr><td class="label">Batas Selatan</td><td class="sep">:</td><td class="value">{{ $extra['batas_selatan'] ?? '-' }}</td></tr>
+        <tr><td class="label">Batas Barat</td><td class="sep">:</td><td class="value">{{ $extra['batas_barat'] ?? '-' }}</td></tr>
         @if(!empty($extra['perkiraan_peserta']))<tr><td class="label">Perkiraan Peserta</td><td class="sep">:</td><td class="value">± {{ number_format((int) str_replace('.', '', $extra['perkiraan_peserta']), 0, ',', '.') }} orang</td></tr>@endif
     </table>
     <p style="margin-top:12px;">Tidak keberatan atas penyelenggaraan kegiatan tersebut dengan ketentuan tidak mengganggu ketertiban umum dan keamanan masyarakat.</p>

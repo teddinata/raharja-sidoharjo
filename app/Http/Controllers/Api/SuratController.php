@@ -8,11 +8,13 @@ use App\Models\Penduduk;
 use App\Models\Surat;
 use App\Models\TtdSurat;
 use App\Models\KelurahanSetting;
+use App\Support\WordHtmlFragment;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Shared\Html;
 
 class SuratController extends Controller
 {
@@ -196,117 +198,25 @@ class SuratController extends Controller
 
         $this->resolveTtd($surat, $setting, $request->query('penandatangan'));
 
-        $phpWord  = new PhpWord();
-        $section  = $phpWord->addSection();
-        $penduduk = $surat->penduduk;
-        $ttd      = $surat->ttd;
-        $extra    = $surat->data_tambahan ?? [];
+        $template = $surat->jenisSurat->template_blade;
 
-        // ── KOP SURAT ────────────────────────────────────────
-        $section->addText(
-            strtoupper("KALURAHAN {$setting->nama_kelurahan}"),
-            ['bold' => true, 'size' => 14],
-            ['alignment' => 'center']
-        );
-        $section->addText(
-            "Kapanewon {$setting->nama_kapanewon}, Kabupaten {$setting->nama_kabupaten}",
-            ['size' => 11],
-            ['alignment' => 'center']
-        );
-        if ($setting->alamat) {
-            $section->addText($setting->alamat, ['size' => 10], ['alignment' => 'center']);
-        }
-        $section->addLine(['weight' => 2, 'color' => '000000']);
-        $section->addTextBreak(1);
-
-        // ── JUDUL ─────────────────────────────────────────────
-        $section->addText(
-            strtoupper($surat->jenisSurat->nama),
-            ['bold' => true, 'size' => 12, 'underline' => 'single'],
-            ['alignment' => 'center']
-        );
-        $section->addText(
-            "Nomor: {$surat->nomor_surat}",
-            ['size' => 11],
-            ['alignment' => 'center']
-        );
-        $section->addTextBreak(1);
-
-        // ── ISI SURAT ─────────────────────────────────────────
-        $section->addText(
-            "Yang bertanda tangan di bawah ini, Lurah {$setting->nama_kelurahan}, Kapanewon {$setting->nama_kapanewon}, Kabupaten {$setting->nama_kabupaten}, menerangkan bahwa:",
-            ['size' => 11],
-            ['spaceAfter' => 120]
-        );
-
-        // Tabel data pemohon
-        $table = $section->addTable(['borderSize' => 0, 'cellMargin' => 80]);
-        $fields = [
-            ['Nama',              $penduduk->nama_lengkap],
-            ['NIK',               $penduduk->nik ?? '-'],
-            ['Tempat/Tgl Lahir',  ($penduduk->tempat_lahir ?? '-') . ', ' . ($penduduk->tanggal_lahir_format ?? '-')],
-            ['Jenis Kelamin',     $penduduk->jenis_kelamin ?? '-'],
-            ['Agama',             $penduduk->agama ?? '-'],
-            ['Pekerjaan',         $penduduk->pekerjaan ?? '-'],
-            ['Alamat',            $penduduk->alamat_lengkap . ', ' . $setting->nama_kelurahan . ', ' . $setting->nama_kapanewon . ', ' . $setting->nama_kabupaten],
-        ];
-
-        foreach ($fields as [$label, $value]) {
-            $row = $table->addRow();
-            $row->addCell(2500)->addText($label, ['size' => 11]);
-            $row->addCell(300)->addText(':', ['size' => 11]);
-            $row->addCell(6000)->addText($value, ['size' => 11]);
+        if (! $template || ! view()->exists($template)) {
+            return response()->json([
+                'message' => "Template [{$template}] belum tersedia.",
+            ], 404);
         }
 
-        // Field tambahan spesifik per jenis surat
-        if (! empty($extra)) {
-            foreach ($extra as $key => $value) {
-                if (! empty($value)) {
-                    $row = $table->addRow();
-                    $row->addCell(2500)->addText(ucwords(str_replace('_', ' ', $key)), ['size' => 11]);
-                    $row->addCell(300)->addText(':', ['size' => 11]);
-                    $row->addCell(6000)->addText((string) $value, ['size' => 11]);
-                }
-            }
-        }
+        // Render blade yang sama persis dengan PDF, supaya isi & susunan surat di DOCX
+        // dijamin sama dengan PDF untuk semua jenis surat (tidak ada struktur generik terpisah).
+        $html = view($template, [
+            'surat'   => $surat,
+            'setting' => $setting,
+        ])->render();
 
-        $section->addTextBreak(1);
-        $section->addText(
-            "Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.",
-            ['size' => 11]
-        );
-        $section->addTextBreak(2);
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        Html::addHtml($section, WordHtmlFragment::prepare($html), false, false);
 
-        // ── TTD ───────────────────────────────────────────────
-        $now = now()->translatedFormat('d F Y');
-        $section->addText(
-            "{$setting->nama_kelurahan}, {$now}",
-            ['size' => 11],
-            ['alignment' => 'right']
-        );
-        $jabatan = ($ttd ? $ttd->jabatan : null) ?? "Lurah {$setting->nama_kelurahan}";
-        foreach (explode("\n", $jabatan) as $jabatanLine) {
-            $section->addText(
-                $jabatanLine,
-                ['size' => 11],
-                ['alignment' => 'right']
-            );
-        }
-        $section->addTextBreak(3);
-        $section->addText(
-            ($ttd ? $ttd->atas_nama : $setting->nama_lurah) ?? '.....................',
-            ['bold' => true, 'underline' => 'single', 'size' => 11],
-            ['alignment' => 'right']
-        );
-        if ($ttd?->nip) {
-            $section->addText(
-                "NIP. {$ttd->nip}",
-                ['size' => 11],
-                ['alignment' => 'right']
-            );
-        }
-
-        // ── SIMPAN & DOWNLOAD ─────────────────────────────────
         $filename = str_replace(['/', '\\'], '-', $surat->nomor_surat) . '.docx';
         $tmpDir   = storage_path('app/tmp');
         $tmpPath  = "{$tmpDir}/{$filename}";

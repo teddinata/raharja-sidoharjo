@@ -84,10 +84,11 @@
         }
         .kop-alamat {
             font-family: Arial, sans-serif;
-            font-size: 8pt;
+            font-size: 7pt;
             line-height: 1.1;
             margin-top: 0;
             text-align: center;
+            white-space: nowrap;
         }
 
         /* Separator garis tebal + tipis (double line) */
@@ -185,7 +186,7 @@
         {{-- Logo --}}
         <td class="kop-logo-cell">
             @if($setting->logo_path && file_exists(storage_path('app/public/' . $setting->logo_path)))
-                <img src="{{ storage_path('app/public/' . $setting->logo_path) }}">
+                <img src="{{ storage_path('app/public/' . $setting->logo_path) }}" width="103" style="width:103px;height:auto;">
             @endif
         </td>
 
@@ -194,7 +195,7 @@
             <p class="kop-kab">KABUPATEN {{ strtoupper($setting->nama_kabupaten) }}</p>
             <p class="kop-kap">KAPANEWON {{ strtoupper($setting->nama_kapanewon) }}</p>
             <p class="kop-kal">PEMERINTAH KALURAHAN {{ strtoupper($setting->nama_kelurahan) }}</p>
-            <p class="kop-jawa"><img src="{{ public_path('images/kop-jawa.png') }}" alt="Pemerintah Kalurahan Sidoharjo"></p>
+            <p class="kop-jawa"><img src="{{ public_path('images/kop-jawa.png') }}" alt="Pemerintah Kalurahan Sidoharjo" width="289" style="height:42px;width:auto;"></p>
             @php
                 $alamat  = rtrim($setting->alamat ?? '-', ' ,');
                 if ($setting->kode_pos) $alamat .= ' ' . $setting->kode_pos;

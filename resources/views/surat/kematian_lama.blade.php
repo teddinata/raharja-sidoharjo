@@ -12,6 +12,10 @@
         <tr><td class="label">Tanggal Meninggal</td><td class="sep">:</td><td class="value">{{ isset($extra['tanggal_meninggal']) ? \Carbon\Carbon::parse($extra['tanggal_meninggal'])->translatedFormat('d F Y') : '-' }}</td></tr>
         <tr><td class="label">Tempat Meninggal</td><td class="sep">:</td><td class="value">{{ $extra['tempat_meninggal'] ?? '-' }}</td></tr>
         <tr><td class="label">Sebab Meninggal</td><td class="sep">:</td><td class="value">{{ $extra['sebab_meninggal'] ?? '-' }}</td></tr>
+        @if(!empty($extra['nama_pelapor']))
+        <tr><td class="label">Nama Pelapor</td><td class="sep">:</td><td class="value">{{ $extra['nama_pelapor'] }}</td></tr>
+        <tr><td class="label">Hubungan Pelapor</td><td class="sep">:</td><td class="value">{{ $extra['hubungan_pelapor'] ?? '-' }}</td></tr>
+        @endif
     </table>
     @if(!empty($extra['keterangan_lama']))<p style="margin-top:12px;">Keterangan keterlambatan: {{ $extra['keterangan_lama'] }}</p>@endif
 </div>

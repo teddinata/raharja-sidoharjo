@@ -26,8 +26,10 @@
         <tr><td class="label">Agama</td><td class="sep">:</td><td class="value">{{ $p->agama ?? '-' }}</td></tr>
         <tr><td class="label">Pekerjaan</td><td class="sep">:</td><td class="value">{{ $p->pekerjaan ?? '-' }}</td></tr>
         <tr><td class="label">Status Perkawinan</td><td class="sep">:</td><td class="value">{{ $p->status_perkawinan ?? '-' }}</td></tr>
-        <tr><td class="label">Alamat</td><td class="sep">:</td>
+        <tr><td class="label">Alamat Sesuai KTP</td><td class="sep">:</td>
             <td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
+        <tr><td class="label">Alamat Domisili</td><td class="sep">:</td>
+            <td class="value">{{ $extra['alamat_domisili'] ?? ($p->pedukuhan ?? '-') . ' RT ' . $p->rt_format . ' RW ' . $p->rw_format . ', ' . $setting->nama_kelurahan . ', ' . $setting->nama_kapanewon . ', ' . $setting->nama_kabupaten }}</td></tr>
     </table>
 
     <p style="margin-top:12px;">

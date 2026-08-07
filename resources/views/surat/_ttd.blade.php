@@ -1,21 +1,12 @@
+{{--
+    $noWrapper: pakai true saat partial ini ditaruh di dalam <td> (mis. layout tanda tangan 2 kolom).
+    PhpWord (konversi DOCX) gagal "Cannot add TextRun in TextRun" kalau <div> berisi banyak <p>
+    ditaruh langsung di dalam <td>, jadi untuk konteks itu tag <div>-nya dilewati sepenuhnya.
+--}}
+@if($noWrapper ?? false)
+    @include('surat._ttd_content', ['ttd' => $ttd, 'setting' => $setting])
+@else
 <div class="ttd">
-    <p>{{ $setting->nama_kelurahan }}, {{ now()->translatedFormat('d F Y') }}</p>
-    <p class="jabatan">{{ ($ttd ? $ttd->jabatan : null) ?? 'Lurah '.$setting->nama_kelurahan }}</p>
-
-    @php
-        // $ttd null sepenuhnya (surat lama tanpa record ttd) -> fallback ke Lurah.
-        // $ttd ada (baik dari surat maupun override Carik) -> pakai data miliknya sendiri, jangan dicampur.
-        $ttdPath = $ttd ? $ttd->ttd_image_path : $setting->ttd_lurah_path;
-        $ttdAbsPath = $ttdPath ? storage_path('app/public/' . $ttdPath) : null;
-    @endphp
-
-    @if($ttdAbsPath && file_exists($ttdAbsPath))
-        <img class="ttd-image"
-             src="data:image/png;base64,{{ base64_encode(file_get_contents($ttdAbsPath)) }}">
-    @else
-        <br>
-    @endif
-
-    <p class="nama">{{ ($ttd ? $ttd->atas_nama : $setting->nama_lurah) ?? '................................' }}</p>
-    @if($ttd?->nip)<p>NIP. {{ $ttd->nip }}</p>@endif
+    @include('surat._ttd_content', ['ttd' => $ttd, 'setting' => $setting])
 </div>
+@endif

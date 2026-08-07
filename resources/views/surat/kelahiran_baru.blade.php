@@ -7,6 +7,7 @@
     <table class="data" style="margin-top:12px;">
         <tr><td class="label">Nama Bayi</td><td class="sep">:</td><td class="value">{{ $extra['nama_bayi'] ?? '-' }}</td></tr>
         <tr><td class="label">Jenis Kelamin</td><td class="sep">:</td><td class="value">{{ $extra['jenis_kelamin_bayi'] ?? '-' }}</td></tr>
+        <tr><td class="label">Anak ke-</td><td class="sep">:</td><td class="value">{{ $extra['anak_ke'] ?? '-' }}</td></tr>
         <tr><td class="label">Tempat Lahir</td><td class="sep">:</td><td class="value">{{ $extra['tempat_lahir_bayi'] ?? '-' }}</td></tr>
         <tr><td class="label">Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ isset($extra['tanggal_lahir_bayi']) ? \Carbon\Carbon::parse($extra['tanggal_lahir_bayi'])->translatedFormat('d F Y') : '-' }}</td></tr>
         <tr><td class="label">Nama Ayah</td><td class="sep">:</td><td class="value">{{ $extra['nama_ayah'] ?? $p->nama_lengkap }}</td></tr>

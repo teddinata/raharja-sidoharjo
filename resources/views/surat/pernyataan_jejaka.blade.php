@@ -1,6 +1,6 @@
 @extends('surat.layout')
 @section('content')
-@php $p = $surat->penduduk; $ttd = $surat->ttd; $tgl = now()->translatedFormat('d F Y'); @endphp
+@php $p = $surat->penduduk; $extra = $surat->data_tambahan ?? []; $ttd = $surat->ttd; $tgl = now()->translatedFormat('d F Y'); @endphp
 <div class="judul"><h3>Surat Pernyataan Jejaka / Belum Pernah Menikah</h3><p>Nomor: {{ $surat->nomor_surat }}</p></div>
 <div class="isi">
     <p>Yang bertanda tangan di bawah ini:</p>
@@ -16,12 +16,16 @@
     <p style="margin-top:8px;">Pernyataan ini saya buat dengan sebenarnya dan apabila dikemudian hari terbukti tidak benar, saya bersedia menerima segala akibat hukum yang berlaku.</p>
     <p style="margin-top:8px;">Demikian pernyataan ini dibuat dan diketahui oleh Lurah {{ $setting->nama_kelurahan }}.</p>
 </div>
-<div style="margin-top:32px; display:flex; justify-content:space-between;">
-    <div style="text-align:center; width:45%;">
-        <p>Yang membuat pernyataan,</p>
-        <p style="margin-top:70px; font-weight:bold; text-decoration:underline;">{{ $p->nama_lengkap }}</p>
-    </div>
-    @include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
-@include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
-</div>
+@include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
+<table style="width:100%; margin-top:24px; border-collapse:collapse;">
+    <tr>
+        <td style="width:50%; text-align:center; vertical-align:top;">
+            <p>Yang membuat pernyataan,</p>
+            <p style="margin-top:70px; font-weight:bold; text-decoration:underline;">{{ $p->nama_lengkap }}</p>
+        </td>
+        <td style="width:50%; vertical-align:top;">
+            @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting, 'noWrapper' => true])
+        </td>
+    </tr>
+</table>
 @endsection
