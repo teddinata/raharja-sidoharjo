@@ -15,7 +15,6 @@
         <tr><td class="label">Nama Usaha</td><td class="sep">:</td><td class="value">{{ $extra['nama_usaha'] ?? '-' }}</td></tr>
         <tr><td class="label">Jenis Usaha</td><td class="sep">:</td><td class="value">{{ $extra['jenis_usaha'] ?? '-' }}</td></tr>
         <tr><td class="label">Alamat Usaha</td><td class="sep">:</td><td class="value">{{ $extra['alamat_usaha'] ?? '-' }}</td></tr>
-        @if(!empty($extra['nomor_rekening']))<tr><td class="label">No. Rekening BRI</td><td class="sep">:</td><td class="value">{{ $extra['nomor_rekening'] }}</td></tr>@endif
         @if(!empty($extra['kantor_unit_bri']))<tr><td class="label">Kantor / Unit BRI</td><td class="sep">:</td><td class="value">{{ $extra['kantor_unit_bri'] }}</td></tr>@endif
         @if(!empty($extra['keperluan_kredit']))<tr><td class="label">Keperluan Kredit</td><td class="sep">:</td><td class="value">{{ $extra['keperluan_kredit'] }}</td></tr>@endif
     </table>
