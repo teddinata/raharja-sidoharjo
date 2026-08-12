@@ -8,13 +8,13 @@
 <div class="judul"><h3>Surat Keterangan Harga Tanah</h3><p>Nomor: {{ $surat->nomor_surat }}</p></div>
 <div class="isi">
     <p>Yang bertanda tangan di bawah ini, Lurah {{ $setting->nama_kelurahan }}, dengan ini menerangkan harga tanah atas permohonan:</p>
-    <table class="data" style="margin-top:12px;">
+    <table class="data" style="margin-top:6px;">
         <tr><td class="label">Nama Pemohon</td><td class="sep">:</td><td class="value">{{ $p->nama_lengkap }}</td></tr>
         <tr><td class="label">NIK</td><td class="sep">:</td><td class="value">{{ $p->nik ?? '-' }}</td></tr>
         <tr><td class="label">Alamat</td><td class="sep">:</td><td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
     </table>
-    <p style="margin-top:12px;">Dengan keterangan tanah sebagai berikut:</p>
-    <table class="data" style="margin-top:8px;">
+    <p style="margin-top:6px;">Dengan keterangan tanah sebagai berikut:</p>
+    <table class="data" style="margin-top:6px;">
         <tr><td class="label">Lokasi Tanah</td><td class="sep">:</td><td class="value">{{ $extra['lokasi_tanah'] ?? '-' }}</td></tr>
         <tr><td class="label">Luas Tanah</td><td class="sep">:</td><td class="value">{{ number_format($luasTanah, 0, ',', '.') }} m²</td></tr>
         <tr><td class="label">Harga per m²</td><td class="sep">:</td><td class="value">Rp {{ number_format($hargaPerM2, 0, ',', '.') }},-</td></tr>

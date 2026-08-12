@@ -18,7 +18,7 @@
     Kapanewon {{ $setting->nama_kapanewon }}, Kabupaten {{ $setting->nama_kabupaten }},
     Provinsi {{ $setting->nama_provinsi }}, dengan ini menerangkan bahwa:</p>
 
-    <table class="data" style="margin-top:12px;">
+    <table class="data" style="margin-top:6px;">
         <tr><td class="label">Nama</td><td class="sep">:</td><td class="value">{{ $p->nama_lengkap }}</td></tr>
         <tr><td class="label">NIK</td><td class="sep">:</td><td class="value">{{ $p->nik ?? '-' }}</td></tr>
         <tr><td class="label">Tempat / Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ $p->tempat_lahir ?? '-' }}, {{ $p->tanggal_lahir_format ?? '-' }}</td></tr>
@@ -32,13 +32,13 @@
             <td class="value">{{ $extra['alamat_domisili'] ?? ($p->pedukuhan ?? '-') . ' RT ' . $p->rt_format . ' RW ' . $p->rw_format . ', ' . $setting->nama_kelurahan . ', ' . $setting->nama_kapanewon . ', ' . $setting->nama_kabupaten }}</td></tr>
     </table>
 
-    <p style="margin-top:12px;">
+    <p style="margin-top:6px;">
         Adalah benar-benar warga dan berdomisili di Kalurahan {{ $setting->nama_kelurahan }},
         Kapanewon {{ $setting->nama_kapanewon }}, Kabupaten {{ $setting->nama_kabupaten }}.
     </p>
 
     @if(!empty($extra['keperluan']))
-    <p style="margin-top:8px;">
+    <p style="margin-top:6px;">
         Surat keterangan ini dibuat untuk keperluan: <strong>{{ $extra['keperluan'] }}</strong>.
     </p>
     @endif

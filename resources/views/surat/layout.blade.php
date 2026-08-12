@@ -120,8 +120,8 @@
 
         /* ── ISI ─────────────────────────────────────────────── */
         .isi {
-            margin-top: 8px;
-            line-height: 1.5;
+            margin-top: 6px;
+            line-height: 1.4;
             font-family: Arial, sans-serif;
             font-size: 11pt;
         }
@@ -129,7 +129,8 @@
         table.data {
             width: 100%;
             border-collapse: collapse;
-            margin: 6px 0;
+            margin: 4px 0;
+            line-height: 1.2;
         }
         table.data td {
             padding: 1px 4px;
@@ -143,21 +144,21 @@
 
         /* ── PENUTUP & TTD ───────────────────────────────────── */
         .penutup {
-            margin-top: 10px;
-            line-height: 1.5;
+            margin-top: 6px;
+            line-height: 1.4;
             font-family: Arial, sans-serif;
             font-size: 11pt;
         }
         .berlaku {
-            margin-top: 14px;
+            margin-top: 8px;
             font-family: Arial, sans-serif;
             font-size: 11pt;
             font-style: italic;
         }
         .ttd {
-            margin-top: 16px;
+            margin-top: 10px;
             text-align: right;
-            line-height: 1.5;
+            line-height: 1.4;
             font-family: Arial, sans-serif;
             font-size: 11pt;
             page-break-inside: avoid;

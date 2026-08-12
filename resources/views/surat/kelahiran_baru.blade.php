@@ -4,7 +4,7 @@
 <div class="judul"><h3>Surat Keterangan Kelahiran</h3><p>Nomor: {{ $surat->nomor_surat }}</p></div>
 <div class="isi">
     <p>Yang bertanda tangan di bawah ini, Lurah {{ $setting->nama_kelurahan }}, dengan ini menerangkan bahwa telah lahir seorang bayi:</p>
-    <table class="data" style="margin-top:12px;">
+    <table class="data" style="margin-top:6px;">
         <tr><td class="label">Nama Bayi</td><td class="sep">:</td><td class="value">{{ $extra['nama_bayi'] ?? '-' }}</td></tr>
         <tr><td class="label">Jenis Kelamin</td><td class="sep">:</td><td class="value">{{ $extra['jenis_kelamin_bayi'] ?? '-' }}</td></tr>
         <tr><td class="label">Anak ke-</td><td class="sep">:</td><td class="value">{{ $extra['anak_ke'] ?? '-' }}</td></tr>

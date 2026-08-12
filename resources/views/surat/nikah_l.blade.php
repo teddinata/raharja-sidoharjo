@@ -17,8 +17,8 @@
     <p>Yang bertanda tangan di bawah ini, Lurah {{ $setting->nama_kelurahan }},
     menerangkan bahwa:</p>
 
-    <p style="margin-top:10px;"><strong>CALON SUAMI</strong></p>
-    <table class="data">
+    <p style="margin-top:6px;"><strong>CALON SUAMI</strong></p>
+    <table class="data" style="line-height:1.2;">
         <tr><td class="label">Nama</td><td class="sep">:</td><td class="value">{{ $p->nama_lengkap }}</td></tr>
         <tr><td class="label">NIK</td><td class="sep">:</td><td class="value">{{ $p->nik ?? '-' }}</td></tr>
         <tr><td class="label">Tempat / Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ $p->tempat_lahir ?? '-' }}, {{ $p->tanggal_lahir_format ?? '-' }}</td></tr>
@@ -29,8 +29,8 @@
             <td class="value">{{ $p->pedukuhan ?? '-' }} RT {{ $p->rt_format }} RW {{ $p->rw_format }}, {{ $setting->nama_kelurahan }}, {{ $setting->nama_kapanewon }}, {{ $setting->nama_kabupaten }}</td></tr>
     </table>
 
-    <p style="margin-top:14px;"><strong>CALON ISTRI</strong></p>
-    <table class="data">
+    <p style="margin-top:8px;"><strong>CALON ISTRI</strong></p>
+    <table class="data" style="line-height:1.2;">
         <tr><td class="label">Nama</td><td class="sep">:</td><td class="value">{{ $extra['nama_calon_istri'] ?? '-' }}</td></tr>
         <tr><td class="label">NIK</td><td class="sep">:</td><td class="value">{{ $extra['nik_calon_istri'] ?? '-' }}</td></tr>
         <tr><td class="label">Tempat / Tanggal Lahir</td><td class="sep">:</td>
@@ -40,18 +40,18 @@
     </table>
 
     @if(!empty($extra['tanggal_akad']))
-    <p style="margin-top:12px;">
+    <p style="margin-top:8px;">
         Rencana akad nikah: <strong>{{ \Carbon\Carbon::parse($extra['tanggal_akad'])->translatedFormat('d F Y') }}</strong>
     </p>
     @endif
 
-    <p style="margin-top:12px;">
+    <p style="margin-top:8px;">
         Bahwa yang bersangkutan bermaksud melangsungkan perkawinan dan memohon
         surat pengantar ke KUA Kapanewon {{ $setting->nama_kapanewon }}.
     </p>
 </div>
 
-<div class="penutup">
+<div class="penutup" style="margin-top:6px;">
     <p>Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
 </div>
 

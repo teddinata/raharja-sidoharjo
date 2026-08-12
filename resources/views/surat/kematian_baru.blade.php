@@ -4,7 +4,7 @@
 <div class="judul"><h3>Surat Keterangan Kematian</h3><p>Nomor: {{ $surat->nomor_surat }}</p></div>
 <div class="isi">
     <p>Yang bertanda tangan di bawah ini, Lurah {{ $setting->nama_kelurahan }}, dengan ini menerangkan bahwa:</p>
-    <table class="data" style="margin-top:12px;">
+    <table class="data" style="margin-top:6px;">
         <tr><td class="label">Nama</td><td class="sep">:</td><td class="value">{{ $p->nama_lengkap }}</td></tr>
         <tr><td class="label">NIK</td><td class="sep">:</td><td class="value">{{ $p->nik ?? '-' }}</td></tr>
         <tr><td class="label">Tempat / Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ $p->tempat_lahir ?? '-' }}, {{ $p->tanggal_lahir_format ?? '-' }}</td></tr>
@@ -25,7 +25,7 @@
         <tr><td class="label">Hubungan Pelapor</td><td class="sep">:</td><td class="value">{{ $extra['hubungan_pelapor'] ?? '-' }}</td></tr>
         @endif
     </table>
-    <p style="margin-top:12px;">Adalah benar-benar telah meninggal dunia pada waktu tersebut di atas.</p>
+    <p style="margin-top:6px;">Adalah benar-benar telah meninggal dunia pada waktu tersebut di atas.</p>
 </div>
 <div class="penutup"><p>Demikian surat keterangan kematian ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.</p></div>
 @include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])

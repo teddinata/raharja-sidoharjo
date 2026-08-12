@@ -4,7 +4,7 @@
 <div class="judul"><h3>Surat Pengantar Pembuatan KIA</h3><p>Nomor: {{ $surat->nomor_surat }}</p></div>
 <div class="isi">
     <p>Yang bertanda tangan di bawah ini, Lurah {{ $setting->nama_kelurahan }}, dengan ini mengantarkan permohonan Kartu Identitas Anak (KIA) atas nama:</p>
-    <table class="data" style="margin-top:12px;">
+    <table class="data" style="margin-top:6px;">
         <tr><td class="label">Nama Anak</td><td class="sep">:</td><td class="value">{{ $p->nama_lengkap }}</td></tr>
         <tr><td class="label">NIK</td><td class="sep">:</td><td class="value">{{ $p->nik ?? '-' }}</td></tr>
         <tr><td class="label">Tempat / Tanggal Lahir</td><td class="sep">:</td><td class="value">{{ $p->tempat_lahir ?? '-' }}, {{ $p->tanggal_lahir_format ?? '-' }}</td></tr>
