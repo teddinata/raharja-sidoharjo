@@ -127,11 +127,13 @@ class SuratController extends Controller
     }
 
     /**
-     * Override relasi ttd surat sesuai penandatangan yang dipilih saat cetak (lurah/carik).
+     * Override relasi ttd surat sesuai penandatangan yang dipilih saat cetak (lurah/carik/an_lurah).
      * Default (tidak dipilih / nilai lain) tetap pakai ttd tersimpan di surat (Lurah).
      */
-    private function resolveTtd(Surat $surat, KelurahanSetting $setting, ?string $penandatangan): void
+    private function resolveTtd(Surat $surat, KelurahanSetting $setting, Request $request): void
     {
+        $penandatangan = $request->query('penandatangan');
+
         if ($penandatangan === 'carik') {
             $surat->setRelation('ttd', new TtdSurat([
                 'surat_id'       => $surat->id,
@@ -139,6 +141,17 @@ class SuratController extends Controller
                 'jabatan'        => "An Lurah {$setting->nama_kelurahan}\nCarik",
                 'nip'            => $setting->nip_carik,
                 'ttd_image_path' => $setting->ttd_carik_path,
+            ]));
+        } elseif ($penandatangan === 'an_lurah') {
+            // Penandatangan "An Lurah" tanpa jabatan tetap di sistem (mis. Pj/Plt situasional) —
+            // namanya diisi manual saat cetak, dikosongkan (garis titik-titik) kalau tidak diisi.
+            $namaManual = trim((string) $request->query('nama_manual', ''));
+            $surat->setRelation('ttd', new TtdSurat([
+                'surat_id'       => $surat->id,
+                'atas_nama'      => $namaManual !== '' ? $namaManual : null,
+                'jabatan'        => "An Lurah {$setting->nama_kelurahan}",
+                'nip'            => null,
+                'ttd_image_path' => null,
             ]));
         }
     }
@@ -158,7 +171,7 @@ class SuratController extends Controller
             ], 422);
         }
 
-        $this->resolveTtd($surat, $setting, $request->query('penandatangan'));
+        $this->resolveTtd($surat, $setting, $request);
 
         $template = $surat->jenisSurat->template_blade;
 
@@ -196,7 +209,7 @@ class SuratController extends Controller
             ], 422);
         }
 
-        $this->resolveTtd($surat, $setting, $request->query('penandatangan'));
+        $this->resolveTtd($surat, $setting, $request);
 
         $template = $surat->jenisSurat->template_blade;
 
