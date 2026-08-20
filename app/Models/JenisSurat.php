@@ -28,12 +28,18 @@ class JenisSurat extends Model
         return $query->where('is_active', true)->orderBy('urutan');
     }
 
+    /**
+     * Harus dipanggil di dalam DB::transaction() — lockForUpdate() di sini hanya
+     * efektif mencegah race condition (dua surat terbit bersamaan dapat nomor sama)
+     * selama transaksi pembungkusnya masih terbuka.
+     */
     public function generateNomorSurat(): string
     {
         $tahun  = now()->year;
         $jumlah = $this->surat()
                        ->where('status', 'terbit')
                        ->whereYear('created_at', $tahun)
+                       ->lockForUpdate()
                        ->count();
 
         $urutan = str_pad($jumlah + 1, 3, '0', STR_PAD_LEFT);

@@ -22,10 +22,11 @@ class RegisterPelayanan extends Model
         ];
     }
 
+    /** Harus dipanggil di dalam DB::transaction() — lihat catatan di JenisSurat::generateNomorSurat(). */
     public static function generateNomorRegister(): string
     {
         $tahun  = now()->year;
-        $jumlah = static::whereYear('tanggal_pelayanan', $tahun)->count();
+        $jumlah = static::whereYear('tanggal_pelayanan', $tahun)->lockForUpdate()->count();
         $urutan = str_pad($jumlah + 1, 3, '0', STR_PAD_LEFT);
 
         return "REG-{$tahun}-{$urutan}";
