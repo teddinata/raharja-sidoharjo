@@ -22,14 +22,28 @@ class RegisterPelayanan extends Model
         ];
     }
 
-    /** Harus dipanggil di dalam DB::transaction() — lihat catatan di JenisSurat::generateNomorSurat(). */
+    /**
+     * Harus dipanggil di dalam DB::transaction() — lihat catatan di JenisSurat::generateNomorSurat().
+     *
+     * Berbasis MAX nomor urut yang sudah ada (bukan COUNT baris), supaya tidak menghasilkan
+     * nomor yang sudah dipakai kalau ada entri register yang dihapus (lihat
+     * RegisterController::destroy()) — COUNT baris akan berkurang saat sebuah baris dihapus,
+     * padahal nomor tertinggi yang pernah terbit tidak berubah.
+     */
     public static function generateNomorRegister(): string
     {
         $tahun  = now()->year;
-        $jumlah = static::whereYear('tanggal_pelayanan', $tahun)->lockForUpdate()->count();
-        $urutan = str_pad($jumlah + 1, 3, '0', STR_PAD_LEFT);
+        $prefix = "REG-{$tahun}-";
 
-        return "REG-{$tahun}-{$urutan}";
+        $terakhir = static::where('nomor_register', 'like', "{$prefix}%")
+                           ->lockForUpdate()
+                           ->orderByDesc('nomor_register')
+                           ->value('nomor_register');
+
+        $urutanTerakhir = $terakhir ? (int) substr($terakhir, strlen($prefix)) : 0;
+        $urutan         = str_pad($urutanTerakhir + 1, 3, '0', STR_PAD_LEFT);
+
+        return "{$prefix}{$urutan}";
     }
 
     public function scopeTahunIni(Builder $query): Builder

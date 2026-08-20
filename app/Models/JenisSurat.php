@@ -32,19 +32,31 @@ class JenisSurat extends Model
      * Harus dipanggil di dalam DB::transaction() — lockForUpdate() di sini hanya
      * efektif mencegah race condition (dua surat terbit bersamaan dapat nomor sama)
      * selama transaksi pembungkusnya masih terbuka.
+     *
+     * Berbasis MAX nomor urut yang sudah ada (bukan COUNT baris), supaya tidak
+     * menghasilkan nomor yang sudah dipakai kalau ada surat yang dihapus — COUNT baris
+     * akan berkurang saat sebuah baris dihapus, padahal nomor tertinggi yang pernah
+     * terbit tidak berubah. Lihat catatan yang sama di RegisterPelayanan::generateNomorRegister().
      */
     public function generateNomorSurat(): string
     {
         $tahun  = now()->year;
-        $jumlah = $this->surat()
-                       ->where('status', 'terbit')
-                       ->whereYear('created_at', $tahun)
-                       ->lockForUpdate()
-                       ->count();
+        $prefix = "{$this->nomor_format}/";
+        $suffix = "/{$tahun}";
 
-        $urutan = str_pad($jumlah + 1, 3, '0', STR_PAD_LEFT);
+        $terakhir = $this->surat()
+                          ->where('status', 'terbit')
+                          ->where('nomor_surat', 'like', "{$prefix}%{$suffix}")
+                          ->lockForUpdate()
+                          ->orderByDesc('nomor_surat')
+                          ->value('nomor_surat');
 
-        return "{$this->nomor_format}/{$urutan}/{$tahun}";
+        $urutanTerakhir = $terakhir
+            ? (int) substr($terakhir, strlen($prefix), -strlen($suffix))
+            : 0;
+        $urutan = str_pad($urutanTerakhir + 1, 3, '0', STR_PAD_LEFT);
+
+        return "{$prefix}{$urutan}{$suffix}";
     }
 
     public function surat()
