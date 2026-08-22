@@ -8,13 +8,10 @@ use App\Models\Penduduk;
 use App\Models\Surat;
 use App\Models\TtdSurat;
 use App\Models\KelurahanSetting;
-use App\Support\WordHtmlFragment;
+use App\Support\SuratDocxWriter;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\Shared\Html;
 
 class SuratController extends Controller
 {
@@ -226,10 +223,6 @@ class SuratController extends Controller
             'setting' => $setting,
         ])->render();
 
-        $phpWord = new PhpWord();
-        $section = $phpWord->addSection();
-        Html::addHtml($section, WordHtmlFragment::prepare($html), false, false);
-
         $filename = str_replace(['/', '\\'], '-', $surat->nomor_surat) . '.docx';
         $tmpDir   = storage_path('app/tmp');
         $tmpPath  = "{$tmpDir}/{$filename}";
@@ -238,8 +231,7 @@ class SuratController extends Controller
             mkdir($tmpDir, 0755, true);
         }
 
-        $writer = IOFactory::createWriter($phpWord, 'Word2007');
-        $writer->save($tmpPath);
+        SuratDocxWriter::save($html, $tmpPath);
 
         $surat->update(['dicetak_at' => now()]);
 
