@@ -21,6 +21,7 @@
 /storage/pail
 /storage/fonts/*.ufm
 /storage/fonts/*.ufm.json
+/storage/fonts/*.afm.json
 /storage/fonts/installed-fonts.json
 /storage/app/tmp
 /vendor
