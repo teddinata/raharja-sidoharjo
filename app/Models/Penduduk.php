@@ -73,6 +73,41 @@ class Penduduk extends Model
         return $query->where('is_aktif', true);
     }
 
+    /**
+     * Anggota satu kartu keluarga, untuk daftar "Keluarga yang Pindah".
+     *
+     * Yang bersangkutan selalu didahulukan, sisanya diurutkan menurut hubungan
+     * keluarga (Kepala Keluarga, Istri, Anak, dst) lalu nama. Hasilnya dibatasi
+     * $batas baris: formulirnya memang hanya menyediakan 5 baris, dan di data ada
+     * no_kk yang dipakai ratusan orang sehingga tanpa batas surat bisa membengkak.
+     */
+    public function serumah(int $batas = 5): \Illuminate\Support\Collection
+    {
+        if (blank($this->no_kk)) {
+            return collect([$this]);
+        }
+
+        $urutanHubungan = [
+            'Kepala Keluarga', 'Istri', 'Isteri', 'Anak', 'Menantu',
+            'Cucu', 'Orang Tua', 'Mertua', 'Keponakan', 'Famili Lain',
+        ];
+
+        return static::where('no_kk', $this->no_kk)
+            ->aktif()
+            ->get()
+            ->sortBy(function (self $orang) use ($urutanHubungan) {
+                $peringkat = array_search($orang->hub_keluarga, $urutanHubungan, true);
+
+                return [
+                    $orang->getKey() === $this->getKey() ? 0 : 1,
+                    $peringkat === false ? count($urutanHubungan) : $peringkat,
+                    (string) $orang->nama_lengkap,
+                ];
+            })
+            ->take($batas)
+            ->values();
+    }
+
     public function surat()
     {
         return $this->hasMany(Surat::class);

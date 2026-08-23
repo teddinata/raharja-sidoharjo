@@ -17,5 +17,5 @@
 <div class="penutup"><p>Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>
 @include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
-@include('surat._keluarga_pindah')
+@include('surat._keluarga_pindah', ['anggota' => $p->serumah(5)])
 @endsection
