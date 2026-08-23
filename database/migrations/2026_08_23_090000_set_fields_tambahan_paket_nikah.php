@@ -48,6 +48,10 @@ return new class extends Migration
         return [
             $this->f('sertakan_n5', 'Sertakan Model N5 (Surat Izin Orang Tua)', 'checkbox', 'Formulir yang Disertakan'),
             $this->f('sertakan_n6', 'Sertakan Model N6 (Ket. Kematian Suami/Istri)', 'checkbox', 'Formulir yang Disertakan'),
+            $this->f('sertakan_pernyataan', 'Sertakan Surat Pernyataan Belum Pernah Menikah', 'checkbox', 'Formulir yang Disertakan',
+                default: $pria ? '1' : ''),
+            $this->f('sertakan_wali', 'Sertakan Surat Keterangan Wali Nikah', 'checkbox', 'Formulir yang Disertakan',
+                default: $pria ? '' : '1'),
 
             $this->f('bin_binti', "{$binP} Pemohon (nama ayah)", 'text', 'Data Pemohon'),
             $this->f('kewarganegaraan', 'Kewarganegaraan', 'text', 'Data Pemohon', placeholder: 'Indonesia'),
@@ -94,6 +98,10 @@ return new class extends Migration
             $this->f('keterangan_lain', 'Keterangan', 'text', 'Surat Keterangan Kalurahan'),
             $this->f('berlaku_sampai_teks', 'Berlaku Sampai', 'text', 'Surat Keterangan Kalurahan', placeholder: 'Pelaksanaan Nikah'),
             $this->f('saksi_dukuh', 'Nama Dukuh (saksi)', 'text', 'Surat Keterangan Kalurahan'),
+            $this->f('pergi_ke_2', 'Pergi ke (surat keterangan ke-2)', 'text', 'Surat Keterangan Kalurahan',
+                placeholder: $pria ? 'KUA setempat' : 'Puskesmas setempat'),
+            $this->f('keperluan_2', 'Keperluan (surat keterangan ke-2)', 'text', 'Surat Keterangan Kalurahan',
+                placeholder: $pria ? 'Daftar Nikah' : 'Imunisasi TT'),
 
             $this->f('almarhum_nama', "Nama Almarhum/ah {$seb}", 'text', 'Data Almarhum (Model N6)'),
             $this->f('almarhum_bin_binti', "{$bin} Almarhum/ah", 'text', 'Data Almarhum (Model N6)'),
@@ -105,6 +113,13 @@ return new class extends Migration
             $this->f('almarhum_alamat', 'Alamat Almarhum/ah', 'text', 'Data Almarhum (Model N6)'),
             $this->f('almarhum_tgl_meninggal', 'Tanggal Meninggal', 'date', 'Data Almarhum (Model N6)'),
             $this->f('almarhum_tempat_meninggal', 'Tempat Meninggal', 'text', 'Data Almarhum (Model N6)'),
+
+            $this->f('wali_nama', 'Nama Wali Nikah', 'text', 'Data Wali Nikah'),
+            $this->f('wali_tempat_lahir', 'Tempat Lahir Wali', 'text', 'Data Wali Nikah'),
+            $this->f('wali_tgl_lahir', 'Tanggal Lahir Wali', 'date', 'Data Wali Nikah'),
+            $this->f('wali_agama', 'Agama Wali', 'select', 'Data Wali Nikah', options: $agama),
+            $this->f('wali_hubungan_nasab', 'Hubungan Nasab', 'text', 'Data Wali Nikah', placeholder: 'Ayah kandung'),
+            $this->f('wali_sebab', 'Sebab', 'text', 'Data Wali Nikah'),
         ];
     }
 
@@ -133,6 +148,7 @@ return new class extends Migration
         bool $required = false,
         ?array $options = null,
         ?string $placeholder = null,
+        ?string $default = null,
     ): array {
         $field = compact('key', 'label', 'type', 'required', 'section');
 
@@ -141,6 +157,9 @@ return new class extends Migration
         }
         if ($placeholder !== null) {
             $field['placeholder'] = $placeholder;
+        }
+        if ($default !== null) {
+            $field['default'] = $default;
         }
 
         return $field;

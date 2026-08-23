@@ -90,6 +90,25 @@ class DataSuratNikah
             'berlaku_sampai' => self::isi($e['berlaku_sampai_teks'] ?? null, 'Pelaksanaan Nikah'),
         ];
 
+        // Surat Keterangan kedua tujuannya berbeda: calon suami ke KUA lagi, calon istri
+        // ke Puskesmas untuk imunisasi TT (syarat calon pengantin wanita).
+        $keterangan2 = array_merge($keterangan, [
+            'pergi_ke'  => self::isi($e['pergi_ke_2'] ?? null, $pria ? $keterangan['pergi_ke'] : 'Puskesmas ' . $setting->nama_kapanewon),
+            'keperluan' => self::isi($e['keperluan_2'] ?? null, $pria ? $keterangan['keperluan'] : 'Imunisasi TT'),
+        ]);
+
+        // Data wali sering baru diisi tangan saat surat sudah dicetak, jadi yang kosong
+        // ditampilkan sebagai titik-titik (bukan "-") supaya ada tempat menulisnya.
+        $waliTtl = self::ttl($e['wali_tempat_lahir'] ?? null, $e['wali_tgl_lahir'] ?? null);
+
+        $wali = [
+            'nama'  => self::isi($e['wali_nama'] ?? null, '………………………….'),
+            'ttl'   => $waliTtl === '-' ? '………………………..' : $waliTtl,
+            'agama' => self::isi($e['wali_agama'] ?? null, '…………………'),
+            'nasab' => self::isi($e['wali_hubungan_nasab'] ?? null, '…………………………………………………..'),
+            'sebab' => self::isi($e['wali_sebab'] ?? null, '……………………………………………………'),
+        ];
+
         $penanda = [
             'jabatan' => ($ttd?->jabatan) ?: 'Lurah ' . $setting->nama_kelurahan,
             'nama'    => ($ttd?->atas_nama) ?: ($setting->nama_lurah ?: '................................'),
@@ -105,18 +124,33 @@ class DataSuratNikah
             'pasangan'   => $pasangan,
             'ayah'       => $ayah,
             'ibu'        => $ibu,
-            'almarhum'   => $almarhum,
-            'akad'       => $akad,
-            'keterangan' => $keterangan,
-            'penanda'    => $penanda,
-            'tglSurat'   => now()->format('d-m-Y'),
+            'almarhum'    => $almarhum,
+            'akad'        => $akad,
+            'keterangan'  => $keterangan,
+            'keterangan2' => $keterangan2,
+            'wali'        => $wali,
+            'penanda'     => $penanda,
+            'tglSurat'    => now()->format('d-m-Y'),
         ];
     }
 
-    /** Apakah model opsional (N5/N6) dicentang petugas. */
-    public static function dicentang(Surat $surat, string $key): bool
+    /**
+     * Apakah formulir opsional ikut dicetak.
+     *
+     * $bawaan dipakai hanya kalau key-nya sama sekali belum ada di data surat — mis.
+     * surat lama yang dibuat sebelum formulir ini ada, atau form yang tidak mengirim
+     * field tersebut. Kalau petugas sudah pernah menyentuh centangnya, pilihannya yang
+     * dipakai, termasuk saat sengaja dimatikan.
+     */
+    public static function dicentang(Surat $surat, string $key, bool $bawaan = false): bool
     {
-        return filter_var(($surat->data_tambahan ?? [])[$key] ?? false, FILTER_VALIDATE_BOOLEAN);
+        $data = $surat->data_tambahan ?? [];
+
+        if (! array_key_exists($key, $data)) {
+            return $bawaan;
+        }
+
+        return filter_var($data[$key], FILTER_VALIDATE_BOOLEAN);
     }
 
     private static function orangTua(array $e, string $prefix, string $nama, string $nik, string $alamatBawaan): array
