@@ -19,25 +19,13 @@ use PhpOffice\PhpWord\SimpleType\TblWidth;
  */
 class SuratDocxWriter
 {
-    /** A4, sama dengan setPaper('a4','portrait') di sisi PDF. */
-    private const PAGE_WIDTH_CM  = 21.0;
-    private const PAGE_HEIGHT_CM = 29.7;
-
-    /**
-     * Margin efektif PDF = margin halaman bawaan dompdf (1,2cm) + padding body di
-     * layout.blade.php (0,6cm atas / 2cm samping / 1,5cm bawah).
-     */
-    private const MARGIN_TOP_CM    = 1.8;
-    private const MARGIN_RIGHT_CM  = 3.2;
-    private const MARGIN_BOTTOM_CM = 2.7;
-    private const MARGIN_LEFT_CM   = 3.2;
-
     /** Sama dengan body di layout.blade.php. */
     private const FONT_NAME = 'Arial';
     private const FONT_SIZE = 11;
 
     public static function save(string $html, string $path): void
     {
+        $page    = SuratPageSetup::fromHtml($html);
         $phpWord = new PhpWord();
 
         // Tanpa ini PhpWord memakai 10pt, sehingga setiap elemen yang gayanya tidak
@@ -45,13 +33,16 @@ class SuratDocxWriter
         $phpWord->setDefaultFontName(self::FONT_NAME);
         $phpWord->setDefaultFontSize(self::FONT_SIZE);
 
+        [$top, $right, $bottom, $left] = $page->marginCm;
+
         $section = $phpWord->addSection([
-            'pageSizeW'    => Converter::cmToTwip(self::PAGE_WIDTH_CM),
-            'pageSizeH'    => Converter::cmToTwip(self::PAGE_HEIGHT_CM),
-            'marginTop'    => Converter::cmToTwip(self::MARGIN_TOP_CM),
-            'marginRight'  => Converter::cmToTwip(self::MARGIN_RIGHT_CM),
-            'marginBottom' => Converter::cmToTwip(self::MARGIN_BOTTOM_CM),
-            'marginLeft'   => Converter::cmToTwip(self::MARGIN_LEFT_CM),
+            'orientation'  => $page->orientation,
+            'pageSizeW'    => Converter::cmToTwip($page->widthCm),
+            'pageSizeH'    => Converter::cmToTwip($page->heightCm),
+            'marginTop'    => Converter::cmToTwip($top),
+            'marginRight'  => Converter::cmToTwip($right),
+            'marginBottom' => Converter::cmToTwip($bottom),
+            'marginLeft'   => Converter::cmToTwip($left),
         ]);
 
         Html::addHtml($section, WordHtmlFragment::prepare($html), false, false);

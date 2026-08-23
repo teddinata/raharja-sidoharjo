@@ -29,8 +29,9 @@ class WordHtmlFragment
      *  - Gambar ditulis sebagai VML (<w:pict>), yang penanganan transparansi PNG-nya tidak
      *    dapat diandalkan di Word -> gambar diratakan dulu ke latar putih.
      */
-    public static function prepare(string $html): string
+    public static function prepare(string $html, ?SuratPageSetup $page = null): string
     {
+        $page ??= SuratPageSetup::fromHtml($html);
         $css   = self::extractStyle($html);
         $dom   = self::loadDom($html);
         $xpath = new DOMXPath($dom);
@@ -38,8 +39,9 @@ class WordHtmlFragment
         self::splitJabatanLines($dom, $xpath);
         self::collapseWhitespace($xpath);
         self::replaceTitleHeading($dom, $xpath);
+        self::replacePageBreaks($dom, $xpath);
         self::replaceKopSeparator($dom, $xpath);
-        self::applyTableWidths($xpath);
+        self::applyTableWidths($xpath, self::contentWidthPx($page));
         self::pushCellAlignToChildren($xpath);
         self::openSignatureGap($xpath);
         self::flattenImagesOnWhite($xpath);
@@ -48,25 +50,32 @@ class WordHtmlFragment
     }
 
     /**
-     * Lebar area isi PDF (21cm − margin 3,2cm kiri/kanan = 14,6cm) dalam piksel CSS 96dpi.
-     * Lebar dipakai dalam satuan absolut, bukan persen: PhpWord menulis <w:tblGrid> selalu
-     * bersatuan twip, jadi lebar persen menghasilkan angka grid yang salah dan Word
-     * menghitung kolomnya jauh lebih sempit dari seharusnya.
+     * Lebar area isi halaman dalam piksel CSS 96dpi. Lebar tabel ditulis dalam satuan
+     * absolut, bukan persen: PhpWord selalu menulis <w:tblGrid> bersatuan twip, jadi
+     * lebar persen menghasilkan angka grid yang salah dan Word menghitung kolomnya
+     * jauh lebih sempit dari seharusnya.
      */
-    private const CONTENT_WIDTH_PX = 552;
+    private static function contentWidthPx(SuratPageSetup $page): int
+    {
+        [, $right, , $left] = $page->marginCm;
 
-    /** Proporsi kolom tabel data — sama dengan layout.blade.php untuk PDF. */
-    private const DATA_COL_PERCENT = [
-        'label' => 38,
-        'sep'   => 4,
-        'value' => 58,
+        return (int) round(($page->widthCm - $left - $right) / 2.54 * 96);
+    }
+
+    /**
+     * Proporsi kolom per jenis tabel — angkanya harus sama dengan CSS di template PDF.
+     *
+     * Dipetakan berdasarkan class tabel induknya, bukan class selnya saja: nama class
+     * "label"/"sep"/"value" dipakai oleh tabel data surat biasa maupun tabel rincian
+     * formulir nikah dengan lebar yang berbeda.
+     */
+    private const COL_PERCENT = [
+        'data'    => ['label' => 38, 'sep' => 4, 'value' => 58],
+        'rincian' => ['nomor' => 6, 'label' => 48, 'sep' => 3, 'value' => 43],
     ];
 
-    /** Kolom kop: sel logo 108px seperti di PDF, sisanya untuk teks. */
-    private const KOP_COL_PX = [
-        'kop-logo-cell' => 108,
-        'kop-teks-cell' => self::CONTENT_WIDTH_PX - 108,
-    ];
+    /** Lebar sel logo kop, sama dengan PDF. */
+    private const KOP_LOGO_WIDTH_PX = 108;
 
     private static function extractStyle(string $html): string
     {
@@ -195,32 +204,92 @@ class WordHtmlFragment
      * dikenali parser CSS PhpWord, akibatnya semua tabel autofit ke isinya dan lebarnya
      * jadi berbeda-beda. Ditulis ulang sebagai atribut width yang memang dibaca PhpWord.
      */
-    private static function applyTableWidths(DOMXPath $xpath): void
+    /**
+     * Di PDF semua tabel width:100%; tanpa lebar eksplisit PhpWord meng-autofit ke isi
+     * sehingga tiap tabel berakhir dengan lebar berbeda-beda.
+     *
+     * Ditelusuri dalam urutan dokumen (induk selalu didahulukan) supaya tabel/sel yang
+     * bersarang bisa menghitung lebarnya dari induk yang sudah ditetapkan, bukan dari
+     * lebar halaman.
+     */
+    private static function applyTableWidths(DOMXPath $xpath, int $contentWidthPx): void
     {
-        // Di PDF semua tabel width:100%; tanpa lebar eksplisit PhpWord meng-autofit ke isi
-        // sehingga tiap tabel berakhir dengan lebar berbeda-beda.
-        foreach ($xpath->query('//table') as $table) {
-            self::setWidthPx($table, self::CONTENT_WIDTH_PX);
+        foreach ($xpath->query('//table|//td') as $el) {
+            $available = self::availableWidthPx($el, $contentWidthPx);
+
+            if ($el->nodeName === 'table') {
+                self::setWidthPx($el, $available);
+
+                continue;
+            }
+
+            $classes = preg_split('/\s+/', trim($el->getAttribute('class'))) ?: [];
+
+            // Lebar persen inline paling spesifik, jadi didahulukan (mis. layout tanda
+            // tangan dua kolom dan kolom lembar formulir nikah).
+            if (preg_match('/width\s*:\s*([0-9.]+)%/i', $el->getAttribute('style'), $m)) {
+                self::setWidthPx($el, (int) round($available * (float) $m[1] / 100));
+
+                continue;
+            }
+
+            if (in_array('kop-logo-cell', $classes, true)) {
+                self::setWidthPx($el, self::KOP_LOGO_WIDTH_PX);
+
+                continue;
+            }
+
+            if (in_array('kop-teks-cell', $classes, true)) {
+                self::setWidthPx($el, $available - self::KOP_LOGO_WIDTH_PX);
+
+                continue;
+            }
+
+            $kolom = self::COL_PERCENT[self::tableKind($el)] ?? [];
+
+            foreach ($kolom as $class => $percent) {
+                if (in_array($class, $classes, true)) {
+                    self::setWidthPx($el, (int) round($available * $percent / 100));
+
+                    break;
+                }
+            }
+        }
+    }
+
+    /** Jenis tabel terdekat yang membungkus sebuah sel, dipakai memilih proporsi kolom. */
+    private static function tableKind(DOMElement $td): string
+    {
+        for ($n = $td->parentNode; $n instanceof DOMElement; $n = $n->parentNode) {
+            if ($n->nodeName !== 'table') {
+                continue;
+            }
+
+            $classes = preg_split('/\s+/', trim($n->getAttribute('class'))) ?: [];
+
+            foreach (array_keys(self::COL_PERCENT) as $kind) {
+                if (in_array($kind, $classes, true)) {
+                    return $kind;
+                }
+            }
+
+            return '';
         }
 
-        foreach (self::DATA_COL_PERCENT as $class => $percent) {
-            foreach ($xpath->query(self::hasClass('td', $class)) as $td) {
-                self::setWidthPx($td, (int) round(self::CONTENT_WIDTH_PX * $percent / 100));
+        return '';
+    }
+
+    /** Lebar yang tersedia: lebar tabel/sel terdekat yang membungkusnya, atau lebar halaman. */
+    private static function availableWidthPx(DOMElement $el, int $contentWidthPx): int
+    {
+        for ($n = $el->parentNode; $n instanceof DOMElement; $n = $n->parentNode) {
+            if (in_array($n->nodeName, ['table', 'td'], true)
+                && preg_match('/width\s*:\s*([0-9.]+)px/i', $n->getAttribute('style'), $m)) {
+                return (int) round((float) $m[1]);
             }
         }
 
-        foreach (self::KOP_COL_PX as $class => $px) {
-            foreach ($xpath->query(self::hasClass('td', $class)) as $td) {
-                self::setWidthPx($td, $px);
-            }
-        }
-
-        // Sel dengan lebar persen inline, mis. layout tanda tangan dua kolom.
-        foreach ($xpath->query('//td') as $td) {
-            if (preg_match('/width\s*:\s*([0-9.]+)%/i', $td->getAttribute('style'), $m)) {
-                self::setWidthPx($td, (int) round(self::CONTENT_WIDTH_PX * (float) $m[1] / 100));
-            }
-        }
+        return $contentWidthPx;
     }
 
     private static function setWidthPx(DOMElement $el, int $px): void
@@ -258,6 +327,29 @@ class WordHtmlFragment
         $classes = preg_split('/\s+/', trim($td->getAttribute('class'))) ?: [];
 
         return in_array('kop-teks-cell', $classes, true) ? 'center' : null;
+    }
+
+    /**
+     * Pemisah lembar di PDF berupa <div> kosong ber-page-break-after. PhpWord tidak
+     * menghasilkan apa pun untuk elemen kosong, sehingga di DOCX semua lembar mengalir
+     * jadi satu. Diganti paragraf berisi spasi yang membawa gaya page-break-after.
+     */
+    private static function replacePageBreaks(DOMDocument $dom, DOMXPath $xpath): void
+    {
+        $pemisah = [];
+        foreach ($xpath->query('//div[contains(@style, "page-break-after")]') as $div) {
+            $pemisah[] = $div;
+        }
+        foreach ($xpath->query(self::hasClass('div', 'pemisah-lembar')) as $div) {
+            $pemisah[] = $div;
+        }
+
+        foreach ($pemisah as $div) {
+            $p = $dom->createElement('p');
+            $p->setAttribute('style', 'page-break-after:always;font-size:1pt;');
+            $p->appendChild($dom->createTextNode(' '));
+            $div->parentNode->replaceChild($p, $div);
+        }
     }
 
     /**

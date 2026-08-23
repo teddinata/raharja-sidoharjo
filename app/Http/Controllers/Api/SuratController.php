@@ -9,6 +9,7 @@ use App\Models\Surat;
 use App\Models\TtdSurat;
 use App\Models\KelurahanSetting;
 use App\Support\SuratDocxWriter;
+use App\Support\SuratPageSetup;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -178,10 +179,14 @@ class SuratController extends Controller
             ], 404);
         }
 
-        $pdf = Pdf::loadView($template, [
+        // Dirender lebih dulu (bukan loadView) supaya orientasi halaman bisa dibaca dari
+        // template dan dipakai sama persis oleh sisi PDF maupun DOCX.
+        $html = view($template, [
             'surat'   => $surat,
             'setting' => $setting,
-        ])->setPaper('a4', 'portrait');
+        ])->render();
+
+        $pdf = Pdf::loadHTML($html)->setPaper('a4', SuratPageSetup::fromHtml($html)->orientation);
 
         // Catat waktu cetak
         $surat->update(['dicetak_at' => now()]);
