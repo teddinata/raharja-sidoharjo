@@ -77,11 +77,13 @@ class Penduduk extends Model
      * Anggota satu kartu keluarga, untuk daftar "Keluarga yang Pindah".
      *
      * Yang bersangkutan selalu didahulukan, sisanya diurutkan menurut hubungan
-     * keluarga (Kepala Keluarga, Istri, Anak, dst) lalu nama. Hasilnya dibatasi
-     * $batas baris: formulirnya memang hanya menyediakan 5 baris, dan di data ada
-     * no_kk yang dipakai ratusan orang sehingga tanpa batas surat bisa membengkak.
+     * keluarga (Kepala Keluarga, Istri, Anak, dst) lalu nama.
+     *
+     * $batas membatasi jumlah yang dikembalikan. Perlu dipakai di tempat yang
+     * jumlahnya berpengaruh (baris formulir, daftar pilihan) karena di data ada
+     * satu no_kk yang dipakai ratusan orang.
      */
-    public function serumah(int $batas = 5): \Illuminate\Support\Collection
+    public function serumah(?int $batas = null): \Illuminate\Support\Collection
     {
         if (blank($this->no_kk)) {
             return collect([$this]);
@@ -104,7 +106,7 @@ class Penduduk extends Model
                     (string) $orang->nama_lengkap,
                 ];
             })
-            ->take($batas)
+            ->when($batas !== null, fn ($daftar) => $daftar->take($batas))
             ->values();
     }
 

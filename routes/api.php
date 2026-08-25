@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Master data
     Route::get('/penduduk',               [PendudukController::class, 'index']);
     Route::get('/penduduk/{nik}',          [PendudukController::class, 'show']);
+    Route::get('/penduduk/{nik}/keluarga', [PendudukController::class, 'keluarga']);
     Route::post('/penduduk',              [PendudukController::class, 'store']);
     Route::put('/penduduk/{id}',          [PendudukController::class, 'update']);
     Route::patch('/penduduk/{id}/toggle-aktif', [PendudukController::class, 'toggleAktif']);

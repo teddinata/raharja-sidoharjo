@@ -110,6 +110,37 @@ class PendudukController extends Controller
     }
 
     /**
+     * GET /api/penduduk/{nik}/keluarga
+     *
+     * Anggota satu kartu keluarga. Dipakai form surat untuk menampilkan pilihan
+     * siapa saja yang ikut — mis. anggota keluarga yang benar-benar ikut pindah.
+     */
+    public function keluarga(string $nik): JsonResponse
+    {
+        $penduduk = Penduduk::where('nik', $nik)->first();
+
+        if (! $penduduk) {
+            return response()->json([
+                'message' => "Penduduk dengan NIK {$nik} tidak ditemukan.",
+            ], 404);
+        }
+
+        // Dibatasi supaya data no_kk yang keliru (dipakai ratusan orang) tidak
+        // membuat daftar pilihan jadi tak terpakai.
+        $anggota = $penduduk->serumah(self::MAKS_ANGGOTA_KELUARGA)->map(fn (Penduduk $o) => [
+            'nik'          => $o->nik,
+            'nama_lengkap' => $o->nama_lengkap,
+            'hub_keluarga' => $o->hub_keluarga,
+            'umur'         => $o->umur,
+        ]);
+
+        return response()->json(['data' => $anggota]);
+    }
+
+    /** Batas anggota keluarga yang ditawarkan di form. */
+    private const MAKS_ANGGOTA_KELUARGA = 25;
+
+    /**
      * POST /api/penduduk
      */
     public function store(Request $request): JsonResponse
