@@ -42,7 +42,7 @@ class WordHtmlFragment
         self::replacePageBreaks($dom, $xpath);
         self::replaceKopSeparator($dom, $xpath);
         self::applyTableWidths($xpath, self::contentWidthPx($page));
-        self::pushCellAlignToChildren($xpath);
+        self::pushCellAlignToChildren($xpath, $css);
         self::openSignatureGap($xpath);
         self::flattenImagesOnWhite($xpath);
 
@@ -302,10 +302,10 @@ class WordHtmlFragment
     }
 
     /** PhpWord tidak menurunkan text-align dari <td> ke <p> di dalamnya. */
-    private static function pushCellAlignToChildren(DOMXPath $xpath): void
+    private static function pushCellAlignToChildren(DOMXPath $xpath, string $css): void
     {
         foreach ($xpath->query('//td') as $td) {
-            $align = self::cellAlign($td);
+            $align = self::cellAlign($td, $css);
             if ($align === null) {
                 continue;
             }
@@ -318,15 +318,28 @@ class WordHtmlFragment
         }
     }
 
-    private static function cellAlign(DOMElement $td): ?string
+    /** Perataan sel: dari inline style kalau ada, kalau tidak dari aturan CSS untuk class-nya. */
+    private static function cellAlign(DOMElement $td, string $css): ?string
     {
         if (preg_match('/text-align\s*:\s*([a-z]+)/i', $td->getAttribute('style'), $m)) {
             return strtolower($m[1]);
         }
 
-        $classes = preg_split('/\s+/', trim($td->getAttribute('class'))) ?: [];
+        foreach (preg_split('/\s+/', trim($td->getAttribute('class'))) ?: [] as $class) {
+            if ($class === '') {
+                continue;
+            }
 
-        return in_array('kop-teks-cell', $classes, true) ? 'center' : null;
+            // Cocokkan "td.kelas { ... }" maupun ".kelas { ... }".
+            $pola = '/(?:^|[,}])\s*(?:td)?\.' . preg_quote($class, '/') . '\s*\{([^}]*)\}/i';
+
+            if (preg_match($pola, $css, $blok)
+                && preg_match('/text-align\s*:\s*([a-z]+)/i', $blok[1], $m)) {
+                return strtolower($m[1]);
+            }
+        }
+
+        return null;
     }
 
     /**

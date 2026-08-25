@@ -22,7 +22,10 @@
     <tr>
         <td style="width:35%;text-align:center;">Dukuh {{ $p->pedukuhan ?? '……………' }}</td>
         <td style="width:30%;text-align:center;">Ketua RT</td>
-        <td style="width:35%;text-align:center;"><p style="font-style:italic;font-size:7pt;margin-top:8px;">materai<br>10000</p></td>
+        <td style="width:35%;text-align:center;">
+            <p style="font-style:italic;font-size:7pt;margin-top:8px;">materai</p>
+            <p style="font-style:italic;font-size:7pt;">10000</p>
+        </td>
     </tr>
     <tr>
         <td style="width:35%;text-align:center;"><p class="ttd-n-nama">{{ $e['saksi_dukuh'] ?? '………………………' }}</p></td>

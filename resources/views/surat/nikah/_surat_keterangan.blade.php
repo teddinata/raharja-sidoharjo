@@ -71,6 +71,19 @@
     </tr>
 </table>
 
-<p style="text-align:center;margin-top:6px;">Mengetahui</p>
-<p style="text-align:center;">Panewu {{ $setting->nama_kapanewon }}</p>
-<p style="text-align:center;" class="ttd-n-garis">……………………………………</p>
+{{--
+    Blok "Mengetahui" diletakkan di tengah-tengah antara nama pemegang surat (rata kiri)
+    dan nama Lurah (mulai di 50%), bukan di tengah halaman — kalau ditengahkan penuh
+    posisinya jatuh tepat di bawah nama Lurah dan terbaca seolah bagian dari tanda
+    tangan Lurah. Dibungkus sel supaya perataannya juga terbawa ke DOCX.
+--}}
+<table style="width:100%;border-collapse:collapse;margin-top:8px;">
+    <tr>
+        <td style="width:60%;text-align:center;">
+            <p>Mengetahui</p>
+            <p>Panewu {{ $setting->nama_kapanewon }}</p>
+            <p class="ttd-n-garis">……………………………………</p>
+        </td>
+        <td style="width:40%;"></td>
+    </tr>
+</table>

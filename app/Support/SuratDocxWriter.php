@@ -19,7 +19,7 @@ use PhpOffice\PhpWord\SimpleType\TblWidth;
  */
 class SuratDocxWriter
 {
-    /** Sama dengan body di layout.blade.php. */
+    /** Dipakai kalau layout tidak menyatakan ukuran font body-nya sendiri. */
     private const FONT_NAME = 'Arial';
     private const FONT_SIZE = 11;
 
@@ -28,10 +28,14 @@ class SuratDocxWriter
         $page    = SuratPageSetup::fromHtml($html);
         $phpWord = new PhpWord();
 
-        // Tanpa ini PhpWord memakai 10pt, sehingga setiap elemen yang gayanya tidak
-        // terbaca parser CSS-nya tampil lebih kecil dari PDF.
+        // Ukuran font bawaan dokumen disamakan dengan "body { font-size }" milik layout.
+        // Tanpa ini PhpWord memakai 10pt, dan yang lebih penting: banyak gaya di layout
+        // ditulis lewat selector turunan (mis. "table.rincian td") yang tidak dikenali
+        // parser CSS PhpWord, sehingga elemen-elemen itu jatuh ke ukuran bawaan dokumen.
+        // Kalau bawaannya tidak ikut layout, isi surat bisa tampil jauh lebih besar dari
+        // PDF dan meluber ke halaman berikutnya.
         $phpWord->setDefaultFontName(self::FONT_NAME);
-        $phpWord->setDefaultFontSize(self::FONT_SIZE);
+        $phpWord->setDefaultFontSize(self::bodyFontSizePt($html));
 
         [$top, $right, $bottom, $left] = $page->marginCm;
 
@@ -50,6 +54,14 @@ class SuratDocxWriter
         self::normalizeTables($section->getElements());
 
         IOFactory::createWriter($phpWord, 'Word2007')->save($path);
+    }
+
+    /** Ukuran font body layout, dalam pt. */
+    private static function bodyFontSizePt(string $html): float
+    {
+        return preg_match('/\bbody\s*\{[^}]*?font-size\s*:\s*([\d.]+)pt/is', $html, $m)
+            ? (float) $m[1]
+            : self::FONT_SIZE;
     }
 
     /**

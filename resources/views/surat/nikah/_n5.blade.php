@@ -27,7 +27,7 @@
         <td style="width:50%;text-align:center;">Ibu</td>
     </tr>
     <tr>
-        <td style="width:50%;text-align:center;"><p class="ttd-n-nama">{{ $ayah['nama'] }}</p></td>
-        <td style="width:50%;text-align:center;"><p class="ttd-n-nama">{{ $ibu['nama'] }}</p></td>
+        <td style="width:50%;text-align:center;"><p class="ttd-n-nama ttd-n-rapat">{{ $ayah['nama'] }}</p></td>
+        <td style="width:50%;text-align:center;"><p class="ttd-n-nama ttd-n-rapat">{{ $ibu['nama'] }}</p></td>
     </tr>
 </table>

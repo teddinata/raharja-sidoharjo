@@ -92,8 +92,14 @@
         /* ── Tanda tangan ─────────────────────────────────────── */
         table.ttd-n { width: 100%; border-collapse: collapse; }
         table.ttd-n td { vertical-align: top; font-size: 7.5pt; }
-        .ttd-n-nama { font-weight: bold; margin-top: 18px; }
-        .ttd-n-garis { margin-top: 18px; }
+        /*
+           Jarak untuk membubuhkan tanda tangan. N5 memakai varian rapat karena isinya
+           paling panjang (empat blok identitas) — dengan jarak penuh formulirnya tidak
+           muat satu halaman dan dompdf melempar seluruh kolom ke lembar berikutnya.
+        */
+        .ttd-n-nama { font-weight: bold; margin-top: 32px; }
+        .ttd-n-garis { margin-top: 32px; }
+        .ttd-n-rapat { margin-top: 14px; }
     </style>
 </head>
 <body>
