@@ -80,7 +80,7 @@
         .kop-n-kal { font-size: 9.5pt; font-weight: bold; line-height: 1.1; }
         .kop-n-jawa { text-align: center; line-height: 1; }
         .kop-n-jawa img { height: 20px; width: auto; }
-        .kop-n-alamat { font-size: 6.5pt; text-align: center; line-height: 1.15; }
+        .kop-n-alamat { font-size: 6.5pt; font-style: italic; text-align: center; line-height: 1.15; }
         .kop-n-garis {
             width: 100%;
             border-top: 2px solid #000;

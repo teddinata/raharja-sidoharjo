@@ -85,6 +85,7 @@
         .kop-alamat {
             font-family: Arial, sans-serif;
             font-size: 7pt;
+            font-style: italic;
             line-height: 1.1;
             margin-top: 0;
             text-align: center;
