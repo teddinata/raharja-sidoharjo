@@ -17,20 +17,5 @@
 <div class="penutup"><p>Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p></div>
 @include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
 @include('surat._ttd', ['ttd' => $ttd, 'setting' => $setting])
-@php
-    // Petugas memilih siapa yang benar-benar ikut pindah saat membuat surat.
-    //
-    // Keberadaan key-nya yang dipakai sebagai penanda, bukan isinya: surat lama
-    // (dibuat sebelum pilihan ini ada) sama sekali tidak menyimpan key ini, jadi
-    // jatuh ke perilaku sebelumnya — seluruh anggota kartu keluarga. Sedangkan key
-    // yang ada tapi kosong berarti petugas memang tidak memilih siapa pun, dan
-    // tabelnya dibiarkan kosong untuk diisi tangan.
-    $anggotaPindah = $p->serumah();
-
-    if (array_key_exists('anggota_pindah', $extra)) {
-        $nikDipilih    = array_filter(array_map('trim', explode(',', (string) $extra['anggota_pindah'])));
-        $anggotaPindah = $anggotaPindah->whereIn('nik', $nikDipilih)->values();
-    }
-@endphp
-@include('surat._keluarga_pindah', ['anggota' => $anggotaPindah])
+@include('surat._keluarga_pindah', ['p' => $p, 'extra' => $extra])
 @endsection

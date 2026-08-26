@@ -11,6 +11,10 @@
         <tr><td class="label">Alamat Tujuan</td><td class="sep">:</td><td class="value">{{ $extra['alamat_tujuan'] ?? '-' }}</td></tr>
     </table>
     <p style="margin-top:6px;">Dengan ini menyatakan bahwa saya benar-benar akan pindah ke alamat tersebut di atas dan tidak keberatan untuk dicoret dari daftar penduduk Kalurahan {{ $setting->nama_kelurahan }}.</p>
+
+    {{-- Daftar anggota keluarga yang ikut pindah — bagian dari isi pernyataan,
+         jadi diletakkan sebelum tanda tangan yang menutup surat. --}}
+    @include('surat._keluarga_pindah', ['p' => $p, 'extra' => $extra])
 </div>
 @include('surat._berlaku', ['extra' => $extra, 'surat' => $surat])
 <table style="width:100%; margin-top:16px; border-collapse:collapse;">

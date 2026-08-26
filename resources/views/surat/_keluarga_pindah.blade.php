@@ -1,20 +1,33 @@
 {{--
-    Daftar keluarga yang ikut pindah.
+    Daftar keluarga yang ikut pindah. Dipakai Surat Pengantar Pindah Penduduk dan
+    Surat Pernyataan Pindah.
 
-    Terisi otomatis dari anggota satu kartu keluarga (lihat Penduduk::serumah()),
-    dengan NIK dipecah satu digit per kotak. Baris sisanya dibiarkan kosong supaya
-    bisa ditambah tangan — sistem tidak tahu pasti siapa saja yang benar-benar ikut
-    pindah, jadi isian otomatis ini hanya titik awal yang masih bisa dikoreksi
-    petugas sebelum surat ditandatangani.
+    Anggota diambil dari kartu keluarga pemohon (lihat Penduduk::serumah()) lalu
+    disaring sesuai pilihan petugas saat membuat surat, dengan NIK dipecah satu digit
+    per kotak. Baris sisanya dibiarkan kosong supaya bisa ditambah tangan.
+
+    Butuh $p (penduduk pemohon) dan $extra (data_tambahan surat).
 
     Gaya ditulis inline, bukan lewat class di layout: layout dipakai bersama 38 jenis
     surat lain, dan lebar/garis dari class tidak terbaca saat konversi ke DOCX.
 --}}
 @php
-    $garis   = 'border:1px #000000 solid;';
-    $tinggi  = 'height:22px;';
-    $baris   = $jumlahBaris ?? 5;
-    $anggota = ($anggota ?? collect())->take($baris)->values();
+    $garis  = 'border:1px #000000 solid;';
+    $tinggi = 'height:22px;';
+    $baris  = $jumlahBaris ?? 5;
+
+    // Keberadaan key-nya yang jadi penanda, bukan isinya: surat lama (dibuat sebelum
+    // pilihan ini ada) sama sekali tidak menyimpan key ini, jadi jatuh ke perilaku
+    // sebelumnya — seluruh anggota kartu keluarga. Key yang ada tapi kosong berarti
+    // petugas memang tidak memilih siapa pun, dan tabelnya dibiarkan kosong.
+    $anggota = $p->serumah();
+
+    if (array_key_exists('anggota_pindah', $extra)) {
+        $nikDipilih = array_filter(array_map('trim', explode(',', (string) $extra['anggota_pindah'])));
+        $anggota    = $anggota->whereIn('nik', $nikDipilih)->values();
+    }
+
+    $anggota = $anggota->take($baris)->values();
 @endphp
 
 <p style="font-weight:bold;margin-top:14px;margin-bottom:4px;">Keluarga yang Pindah</p>
