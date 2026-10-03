@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\JenisSuratController;
 use App\Http\Controllers\Api\PendudukController;
 use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\RtRwController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\SuratController;
 use App\Http\Controllers\Api\UploadController;
@@ -30,6 +31,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/penduduk/{id}/toggle-aktif', [PendudukController::class, 'toggleAktif']);
     Route::delete('/penduduk/{id}',       [PendudukController::class, 'destroy']);
     Route::get('/penduduk-list',          [PendudukController::class, 'list']);
+    Route::get('/rt-rw',                  [RtRwController::class, 'index']);
+    Route::put('/rw/{id}',                [RtRwController::class, 'updateRw']);
+    Route::put('/rt/{id}',                [RtRwController::class, 'updateRt']);
     Route::get('/jenis-surat',       [JenisSuratController::class, 'index']);
     Route::get('/jenis-surat/{kode}',[JenisSuratController::class, 'show']);
     Route::get('/settings',          [SettingController::class, 'show']);

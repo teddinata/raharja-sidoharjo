@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\WilayahRtRw;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
     'no_kk', 'nik', 'nama_lengkap', 'tempat_lahir', 'tanggal_lahir',
     'jenis_kelamin', 'agama', 'pendidikan', 'pekerjaan',
     'status_perkawinan', 'hub_keluarga', 'pedukuhan', 'rt', 'rw',
-    'nama_ketua_rt', 'nama_ketua_rw',
     'nama_ayah', 'nik_ayah', 'nama_ibu', 'nik_ibu',
     'is_aktif',
 ])]
@@ -25,6 +25,28 @@ class Penduduk extends Model
             'tanggal_lahir' => 'date',
             'is_aktif'      => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        // RT/RW yang belum dikenal langsung didaftarkan ke master supaya bisa
+        // diisi nama ketuanya di halaman Ketua RT/RW.
+        static::saved(function (self $p) {
+            if ($p->wasChanged(['rt', 'rw']) || $p->wasRecentlyCreated) {
+                WilayahRtRw::daftarkan($p->rw, $p->rt, $p->pedukuhan);
+            }
+        });
+    }
+
+    /** Nama Ketua RT diambil dari master RT/RW, bukan disimpan per warga. */
+    public function getNamaKetuaRtAttribute(): ?string
+    {
+        return WilayahRtRw::ketuaRt($this->rw, $this->rt);
+    }
+
+    public function getNamaKetuaRwAttribute(): ?string
+    {
+        return WilayahRtRw::ketuaRw($this->rw);
     }
 
     public function getUmurAttribute(): ?int

@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Penduduk;
+use App\Support\WilayahRtRw;
 
 class PendudukImport
 {
@@ -29,6 +30,15 @@ class PendudukImport
             // Skip jika NIK sudah ada
             if ($nik && Penduduk::where('nik', $nik)->exists()) continue;
 
+            // Nama ketua RT/RW masuk ke master, hanya bila di master masih kosong.
+            WilayahRtRw::daftarkan(
+                $row[8] ?? null,
+                $row[7] ?? null,
+                $this->clean($row[6] ?? null),
+                $this->clean($row[16] ?? null),
+                $this->clean($row[17] ?? null),
+            );
+
             $batch[] = [
                 'no_kk'             => $this->clean($row[0]),
                 'nik'               => $nik,
@@ -46,8 +56,6 @@ class PendudukImport
                 'hub_keluarga'      => $this->clean($row[13]),
                 'nama_ayah'         => $this->clean($row[14]),
                 'nama_ibu'          => $this->clean($row[15]),
-                'nama_ketua_rt'     => $this->clean($row[16]),
-                'nama_ketua_rw'     => $this->clean($row[17]),
                 'is_aktif'          => true,
                 'created_at'        => now(),
                 'updated_at'        => now(),

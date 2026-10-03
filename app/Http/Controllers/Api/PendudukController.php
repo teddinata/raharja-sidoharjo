@@ -271,8 +271,6 @@ class PendudukController extends Controller
             'pedukuhan'        => 'required|string|max:50',
             'rt'               => 'required|string|max:5',
             'rw'               => 'required|string|max:5',
-            'nama_ketua_rt'    => 'nullable|string|max:100',
-            'nama_ketua_rw'    => 'nullable|string|max:100',
             'nama_ayah'        => 'nullable|string|max:100',
             'nama_ibu'         => 'nullable|string|max:100',
         ];
