@@ -11,6 +11,7 @@ use Carbon\Carbon;
  *
  * Sebagian besar isian diambil otomatis dari data penduduk — termasuk nama & NIK kedua
  * orang tua serta nama Ketua RT — sisanya dari data_tambahan yang diisi petugas.
+ * NIK orang tua yang diisi petugas di form didahulukan daripada data penduduk.
  */
 class DataSuratNikah
 {
@@ -57,8 +58,8 @@ class DataSuratNikah
             'alamat'          => self::isi($e["alamat_{$sfx}"] ?? null),
         ];
 
-        $ayah = self::orangTua($e, 'ayah', self::isi($p->nama_ayah), self::isi($p->nik_ayah), $alamatPemohon);
-        $ibu  = self::orangTua($e, 'ibu', self::isi($p->nama_ibu), self::isi($p->nik_ibu), $alamatPemohon);
+        $ayah = self::orangTua($e, 'ayah', self::isi($p->nama_ayah), self::isi($e['ayah_nik'] ?? null, self::isi($p->nik_ayah)), $alamatPemohon);
+        $ibu  = self::orangTua($e, 'ibu', self::isi($p->nama_ibu), self::isi($e['ibu_nik'] ?? null, self::isi($p->nik_ibu)), $alamatPemohon);
 
         $almarhum = [
             'nama'             => self::isi($e['almarhum_nama'] ?? null),
